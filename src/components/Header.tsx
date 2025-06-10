@@ -9,6 +9,7 @@ import styles from "@/components/Header.module.scss";
 import { routes, display } from "@/app/resources";
 import { person, about, blog, work, gallery } from "@/app/resources/content";
 import { ThemeToggle } from "./ThemeToggle";
+import { LanguageToggle } from "./LanguageToggle";
 
 type TimeDisplayProps = {
   timeZone: string;
@@ -151,6 +152,8 @@ export const Header = () => {
                 <>
                   <Line background="neutral-alpha-medium" vert maxHeight="24" />
                   <ThemeToggle />
+                  <Line background="neutral-alpha-medium" vert maxHeight="24" />
+                  <LanguageToggle />
                 </>
               )}
             </Flex>

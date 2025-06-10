@@ -15,6 +15,7 @@
     "classnames": "^2.5.1",
     "cookie": "^1.0.2",
     "gray-matter": "^4.0.3",
+    "jotai": "^2.12.5",
     "next": "^15.3.1",
     "next-mdx-remote": "^5.0.0",
     "postcss": "^8.5.3",
