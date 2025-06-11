@@ -10,10 +10,12 @@ import { routes, display } from "@/app/resources";
 import { person, about, blog, work, gallery } from "@/app/resources/content";
 import { ThemeToggle } from "./ThemeToggle";
 import { LanguageToggle } from "./LanguageToggle";
+import { useAtom } from 'jotai';
+import { languageAtom } from '@/atoms/language';
 
 type TimeDisplayProps = {
   timeZone: string;
-  locale?: string; // Optionally allow locale, defaulting to 'en-GB'
+  locale?: string;
 };
 
 const TimeDisplay: React.FC<TimeDisplayProps> = ({ timeZone, locale = "en-GB" }) => {
@@ -46,6 +48,37 @@ export default TimeDisplay;
 
 export const Header = () => {
   const pathname = usePathname() ?? "";
+  const [language] = useAtom(languageAtom);
+  
+  // Dynamically import content based on language
+  const [content, setContent] = useState({
+    about,
+    blog,
+    work,
+    gallery
+  });
+
+  useEffect(() => {
+    const loadContent = async () => {
+      if (language === "FR") {
+        const frContent = await import("@/app/resources/content.fr");
+        setContent({
+          about: frContent.about,
+          blog: frContent.blog,
+          work: frContent.work,
+          gallery: frContent.gallery
+        });
+      } else {
+        setContent({
+          about,
+          blog,
+          work,
+          gallery
+        });
+      }
+    };
+    loadContent();
+  }, [language]);
 
   return (
     <>
@@ -86,7 +119,7 @@ export const Header = () => {
                     className="s-flex-hide"
                     prefixIcon="person"
                     href="/about"
-                    label={about.label}
+                    label={content.about.label}
                     selected={pathname === "/about"}
                   />
                   <ToggleButton
@@ -103,7 +136,7 @@ export const Header = () => {
                     className="s-flex-hide"
                     prefixIcon="grid"
                     href="/work"
-                    label={work.label}
+                    label={content.work.label}
                     selected={pathname.startsWith("/work")}
                   />
                   <ToggleButton
@@ -120,7 +153,7 @@ export const Header = () => {
                     className="s-flex-hide"
                     prefixIcon="book"
                     href="/blog"
-                    label={blog.label}
+                    label={content.blog.label}
                     selected={pathname.startsWith("/blog")}
                   />
                   <ToggleButton
@@ -137,7 +170,7 @@ export const Header = () => {
                     className="s-flex-hide"
                     prefixIcon="gallery"
                     href="/gallery"
-                    label={gallery.label}
+                    label={content.gallery.label}
                     selected={pathname.startsWith("/gallery")}
                   />
                   <ToggleButton
