@@ -1,3 +1,5 @@
+import { InlineCode } from "@/once-ui/components";
+
 const person = {
   firstName: "Alexy",
   lastName: "Roman",
@@ -51,7 +53,7 @@ const home = {
   label: "Accueil",
   title: `Portfolio de ${person.name}`,
   description: `Portfolio présentant mon travail en tant qu'${person.role}.`,
-  headline: <>Créer des ponts entre les systèmes matériels et les solutions logicielles</>,
+  headline: <>Concevoir des méthodes et outils qui unifient les ingénieurs et boostent la productivité</>,
   featured: {
     display: true,
     title: <>Poste actuel chez <strong className="ml-4">H3 Dynamics</strong></>,
@@ -59,9 +61,7 @@ const home = {
   },
   subline: (
     <>
-      Je suis Alexy, Ingénieur Systèmes & Logiciels chez H3 Dynamics, concevant des architectures
-      système robustes et évolutives.<br /> En dehors du travail, je développe des projets personnels
-      à l'intersection du matériel et du logiciel.
+      Je suis Alexy, Ingénieur Systèmes & Logiciels chez <InlineCode>H3 Dynamics</InlineCode>, où je conçois des systèmes piles à combustible hydrogène pour l'aéronautique. Je crée également des méthodes et outils pour aider nos ingénieurs à rester alignés — en unifiant conception, ingénierie système et safety dans un processus collaboratif soutenu par des logiciels que je développe sur mesure pour être adaptés à nos besoins.
     </>
   ),
 };
@@ -88,8 +88,8 @@ const about = {
     description: (
       <>
         Je suis un Ingénieur Systèmes & Logiciels basé à Toulouse, travaillant chez H3 Dynamics.
-        Je combine l'ingénierie des systèmes matériels et le développement logiciel pour optimiser
-        les flux de travail complexes et fournir des plateformes fiables et évolutives.
+        Je travaille comme ingénieur pour des systèmes piles à hydrogène de qualité aéronautique
+        et développe des logiciels pour optimiser des flux d’ingénierie complexes sous normes strictes, livrant des plateformes fiables et évolutives.
       </>
     ),
   },
@@ -102,8 +102,14 @@ const about = {
         timeframe: "2024 – Présent",
         role: "Ingénieur Systèmes & Logiciels",
         achievements: [
-          <>Développement et optimisation des processus d'ingénierie système conformes aux normes de l'industrie.</>,
-          <>Intégration de modules logiciels pour rationaliser les flux de travail et améliorer la fiabilité.</>,
+          <>Responsable de la planification et de la mise en œuvre de processus d’ingénierie système conformes aux normes aéronautiques (ARP-4754 et ARP-4761).</>,
+          <>Conception et amélioration de processus pour aligner les pratiques sur les standards de l'industrie et accélérer les lancements de projets.</>,
+          <>Développement d’outils logiciels sur mesure pour soutenir l’ingénierie système : traitement de données de test, APIs, intégrations avec des outils de modélisation.</>,
+          <>Création de plateformes logicielles pour les clients du secteur hydrogène, livrant des analyses financières à partir de modèles d’optimisation sur des données techniques et financières en temps-réel.</>,
+          <>Pilotage de la transition vers l’Ingénierie Système Basée sur les Modèles (MBSE).</>,
+          <>Architecture de systèmes aéronautiques sous norme ARP-4754, avec modélisation et documentation claire pour les parties prenantes.</>,
+          <>Travail pratique sur les systèmes à pile à hydrogène : intégration matérielle et mise en service.</>,
+          <>Propositions stratégiques pour intégrer des outils IA dans les processus d’ingénierie.</>,
         ],
         images: [],
       },
@@ -115,7 +121,14 @@ const about = {
     institutions: [
       {
         name: "École Nationale de l'Aviation Civile (ENAC)",
-        description: <>Formation en systèmes aéronautiques et ingénierie aérospatiale.</>,
+        description: (
+          <>
+            Double diplôme : 
+            <br /><strong>- Ingénieur SITA-ISI</strong> (Systèmes d'Information du Transport Aérien)
+            <br /><strong>- Master IATSED</strong> (Ingénierie et Conception des Systèmes de Transport Aérien).
+            <br />Formation en systèmes aéronautiques, ingénierie aérospatiale et conception logicielle sous normes aéronautiques.
+          </>
+        ),
       },
     ],
   },
@@ -124,13 +137,38 @@ const about = {
     title: "Compétences Techniques",
     skills: [
       {
-        title: "Ingénierie Système",
-        description: <>Architecture de flux de travail matériel-logiciel complexes, exigences et validation.</>,
+        title: "Ingénierie & Architecture de Systèmes Aéronautiques",
+        description: <>Conception de systèmes matériels-logiciels sous ARP‑4754/4761, incluant exigences, validation et MBSE.</>,
+        images: [],
+      },
+      {
+        title: "MBSE – Ingénierie Système Basée sur les Modèles",
+        description: <>Leadership sur l’adoption MBSE : outils de modélisation, standards, et collaboration interdisciplinaire.</>,
+        images: [],
+      },
+      {
+        title: "Logiciels pour l'Ingénierie",
+        description: <>Outils Python : traitements de données, APIs sur mesure, intégration avec des plateformes de conception et de modélisation.</>,
         images: [],
       },
       {
         title: "Développement Logiciel",
-        description: <>Création d'applications Python et full stack pour soutenir l'ingénierie système.</>,
+        description: <>Développement full stack (HTML, CSS, JavaScript, TypeScript, React, Next.js), Java, OCaml, C, C++.</>,
+        images: [],
+      },
+      {
+        title: "Stratégie IA & Automatisation",
+        description: <>Conception et proposition de stratégies pour intégrer l’IA dans les processus d’ingénierie.</>,
+        images: [],
+      },
+      {
+        title: "Systèmes Hydrogène & Piles à Combustible",
+        description: <>Expérience pratique sur l’architecture, l’intégration, la mise en service et le support opérationnel de systèmes à hydrogène pour l’aéronautique.</>,
+        images: [],
+      },
+      {
+        title: "Normes & Conformité Aéronautiques",
+        description: <>Maîtrise de ARP‑4754, ARP‑4761 et des meilleures pratiques en sûreté, ingénierie et conception dans l’aéronautique.</>,
         images: [],
       },
     ],
@@ -159,4 +197,4 @@ const gallery = {
   images: [],
 };
 
-export { person, social, newsletter, home, about, blog, work, gallery }; 
+export { person, social, newsletter, home, about, blog, work, gallery };
