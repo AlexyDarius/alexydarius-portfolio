@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Heading, Flex, Text, Button, Avatar, RevealFx, Column, Badge, Row } from "@/once-ui/components";
-import { baseURL, routes } from "@/app/resources";
+import { baseURL } from "@/app/resources";
 import { Schema } from "@/once-ui/modules";
 import { useContent } from "@/app/resources/useContent";
 

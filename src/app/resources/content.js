@@ -1,3 +1,5 @@
+import { InlineCode } from "@/once-ui/components";
+
 const person = {
   firstName: "Alexy",
   lastName: "Roman",
@@ -51,7 +53,7 @@ const home = {
   label: "Home",
   title: `${person.name}'s Portfolio`,
   description: `Portfolio showcasing my work as a ${person.role}.`,
-  headline: <>Building bridges between hardware systems and software solutions</>,
+  headline: <>Designing methods and tools that unite engineers and boost productivity</>,
   featured: {
     display: true,
     title: <>Current role at <strong className="ml-4">H3 Dynamics</strong></>,
@@ -59,9 +61,7 @@ const home = {
   },
   subline: (
     <>
-      I’m Alexy, a Systems & Software Engineer at H3 Dynamics, crafting robust, scalable
-      system architectures.<br /> Outside work, I build side‑projects intersecting hardware
-      and software.
+      I’m Alexy, a Systems & Software Engineer at <InlineCode>H3 Dynamics</InlineCode>, where I design aeronautical-grade systems for hydrogen fuel cells. I also create methods and tools that help our engineers stay connected and aligned — bringing together design, systems engineering, and safety into a shared, collaborative workflow, supported by custom software I craft to fit our specific needs.
     </>
   ),
 };
