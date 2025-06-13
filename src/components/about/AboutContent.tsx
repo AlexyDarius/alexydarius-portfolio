@@ -70,7 +70,7 @@ export function AboutContent() {
       {about.tableOfContent.display && (
         <Column
           left="0"
-          style={{ top: "50%", transform: "translateY(-50%)" }}
+          style={{ top: "60%", transform: "translateY(-50%)" }}
           position="fixed"
           paddingLeft="24"
           gap="32"
