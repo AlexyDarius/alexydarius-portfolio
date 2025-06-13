@@ -1,28 +1,23 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
+import type { Language } from '@/atoms/language';
+import type { Project } from '@/types/project';
 
-export interface Project {
-  slug: string;
-  metadata: {
-    title: string;
-    publishedAt: string;
-    summary: string;
-    image: string;
-    images: string[];
-    tag: string[];
-    team: Array<{ avatar: string }>;
-    link: string;
-  };
-  content: string;
-}
-
-function getMDXFiles(dir: string) {
+function getMDXFiles(dir: string, language: Language = 'EN') {
   if (!fs.existsSync(dir)) {
     return [];
   }
 
-  return fs.readdirSync(dir).filter((file) => path.extname(file) === ".mdx");
+  const files = fs.readdirSync(dir);
+  
+  if (language === 'FR') {
+    // For French, look for .fr.mdx files
+    return files.filter((file) => file.endsWith('.fr.mdx'));
+  } else {
+    // For English, look for .mdx files that are NOT .fr.mdx
+    return files.filter((file) => file.endsWith('.mdx') && !file.endsWith('.fr.mdx'));
+  }
 }
 
 function readMDXFile(filePath: string): Project | null {
@@ -44,12 +39,16 @@ function readMDXFile(filePath: string): Project | null {
     link: data.link || "",
   };
 
-  return { metadata, content, slug: path.basename(filePath, path.extname(filePath)) };
+  // Remove .fr from slug for French files to keep URLs consistent
+  const slug = path.basename(filePath, path.extname(filePath)).replace('.fr', '');
+  
+  return { metadata, content, slug };
 }
 
-export function getProjects(range?: [number, number?]): Project[] {
+export function getProjects(range?: [number, number?], language: Language = 'EN'): Project[] {
   const postsDir = path.join(process.cwd(), 'src', 'app', 'work', 'projects');
-  const mdxFiles = getMDXFiles(postsDir);
+  const mdxFiles = getMDXFiles(postsDir, language);
+  
   const projects = mdxFiles
     .map((file) => readMDXFile(path.join(postsDir, file)))
     .filter((project): project is Project => project !== null)

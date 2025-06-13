@@ -1,57 +1,29 @@
-import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
+import { NextRequest, NextResponse } from 'next/server';
+import { getProjects } from '@/app/utils/projects';
+import type { Language } from '@/atoms/language';
 
-function getMDXFiles(dir: string) {
-  if (!fs.existsSync(dir)) {
-    return [];
+export async function GET(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const language = (searchParams.get('language') || 'EN') as Language;
+    const start = searchParams.get('start');
+    const end = searchParams.get('end');
+
+    let range: [number, number?] | undefined;
+    if (start) {
+      const startNum = parseInt(start, 10);
+      const endNum = end ? parseInt(end, 10) : undefined;
+      range = [startNum, endNum];
+    }
+
+    const projects = getProjects(range, language);
+
+    return NextResponse.json({ projects });
+  } catch (error) {
+    console.error('Error fetching projects:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch projects' },
+      { status: 500 }
+    );
   }
-
-  return fs.readdirSync(dir).filter((file) => path.extname(file) === ".mdx");
-}
-
-function readMDXFile(filePath: string) {
-  if (!fs.existsSync(filePath)) {
-    return null;
-  }
-
-  const rawContent = fs.readFileSync(filePath, "utf-8");
-  const { data, content } = matter(rawContent);
-
-  const metadata = {
-    title: data.title || "",
-    publishedAt: data.publishedAt,
-    summary: data.summary || "",
-    image: data.image || "",
-    images: data.images || [],
-    tag: data.tag || [],
-    team: data.team || [],
-    link: data.link || "",
-  };
-
-  return { metadata, content };
-}
-
-function getMDXData(dir: string) {
-  const mdxFiles = getMDXFiles(dir);
-  return mdxFiles.map((file) => {
-    const result = readMDXFile(path.join(dir, file));
-    if (!result) return null;
-    const { metadata, content } = result;
-    const slug = path.basename(file, path.extname(file));
-
-    return {
-      metadata,
-      slug,
-      content,
-    };
-  }).filter(Boolean);
-}
-
-export async function GET() {
-  const postsDir = path.join(process.cwd(), 'src', 'app', 'work', 'projects');
-  const projects = getMDXData(postsDir);
-  
-  return NextResponse.json(projects);
 } 

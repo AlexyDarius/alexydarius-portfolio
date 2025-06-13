@@ -6,14 +6,24 @@ import { baseURL } from "@/app/resources";
 import { Schema } from "@/once-ui/modules";
 import { useContent } from "@/app/resources/useContent";
 import { Projects } from "@/components/work/Projects";
-import { Project } from "@/app/utils/projects";
+import { Project } from "@/types/project";
+import { useAtom } from 'jotai';
+import { languageAtom, type Language } from '@/atoms/language';
+import { useEffect } from 'react';
 
 interface HomeContentProps {
   projects: Project[];
+  serverLanguage: Language;
 }
 
-export function HomeContent({ projects }: HomeContentProps) {
+export function HomeContent({ projects, serverLanguage }: HomeContentProps) {
+  const [, setLanguage] = useAtom(languageAtom);
   const { home, about, person, newsletter } = useContent();
+
+  // Sync server language with client language atom
+  useEffect(() => {
+    setLanguage(serverLanguage);
+  }, [serverLanguage, setLanguage]);
 
   return (
     <Column maxWidth="m" gap="xl" horizontal="center">
@@ -80,7 +90,7 @@ export function HomeContent({ projects }: HomeContentProps) {
           </RevealFx>
         </Column>
         <RevealFx translateY="16" delay={0.6}>
-          <Projects projects={projects} />
+          <Projects projects={projects} range={[1, 1]} />
         </RevealFx>
       </Column>
     </Column>

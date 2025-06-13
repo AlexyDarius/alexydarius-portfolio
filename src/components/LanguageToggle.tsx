@@ -23,7 +23,11 @@ export const LanguageToggle = () => {
   const handleLanguageChange = (newLanguage: Language) => {
     setLanguage(newLanguage);
     setIsOpen(false);
-    console.log('Language changed to:', newLanguage); // Debug log
+    
+    // Set cookie so server can read the language preference
+    document.cookie = `language=${newLanguage}; path=/; max-age=${60 * 60 * 24 * 365}`; // 1 year
+    
+    // No longer reload the page - let the client-side state handle the change
   };
 
   return (

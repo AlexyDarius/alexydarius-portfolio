@@ -1,9 +1,14 @@
-import { Projects } from "@/components/work/Projects";
+import React from "react";
 import { Meta, Schema } from "@/once-ui/modules";
 import { baseURL } from "@/app/resources";
 import * as defaultContent from "@/app/resources/content";
 import { getProjects } from "@/app/utils/projects";
-import { Column } from "@/once-ui/components";
+import { headers, cookies } from 'next/headers';
+import type { Language } from '@/atoms/language';
+import { WorkContent } from "@/components/work/WorkContent";
+
+// Force dynamic rendering to ensure cookies are read on each request
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata() {
   const { work } = defaultContent;
@@ -15,27 +20,43 @@ export async function generateMetadata() {
     path: work.path,
   });
 }
+
 export default async function Work() {
-  const { work, about, person } = defaultContent;
-  const projects = getProjects();
+  // Get language from cookie first
+  const languageCookie = (await cookies()).get('language')?.value as Language;
   
+  let language: Language;
+  if (languageCookie) {
+    language = languageCookie;
+  } else {
+    // Fallback to Accept-Language header
+    const acceptLang = (await headers()).get('accept-language') || '';
+    language = acceptLang.toLowerCase().includes('fr') ? 'FR' : 'EN';
+  }
+
+  // Load all projects based on detected language
+  const projects = getProjects(undefined, language);
+
   return (
-    <Column maxWidth="m">
+    <>
       <Schema
         as="webPage"
         baseURL={baseURL}
-        path={work.path}
-        title={work.title}
-        description={work.description}
-        image={`/api/og/generate?title=${encodeURIComponent(work.title)}`}
+        path={defaultContent.work.path}
+        title={defaultContent.work.title}
+        description={defaultContent.work.description}
+        image={`/api/og/generate?title=${encodeURIComponent(defaultContent.work.title)}`}
         author={{
-          name: person.name,
-          url: `${baseURL}${about.path}`,
-          image: `${baseURL}${person.avatar}`,
+          name: defaultContent.person.name,
+          url: `${baseURL}${defaultContent.about.path}`,
+          image: `${baseURL}${defaultContent.person.avatar}`,
         }}
       />
-      <Projects projects={projects} />
-    </Column>
+      <WorkContent 
+        projects={projects} 
+        serverLanguage={language}
+      />
+    </>
   );
 }
 

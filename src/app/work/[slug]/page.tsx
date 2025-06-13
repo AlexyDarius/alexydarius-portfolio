@@ -1,102 +1,103 @@
 import { notFound } from "next/navigation";
-import { CustomMDX } from "@/components/mdx";
-import { getPosts } from "@/app/utils/utils";
-import { AvatarGroup, Button, Column, Flex, Heading, SmartImage, Text } from "@/once-ui/components";
+import { getProjects } from "@/app/utils/projects";
 import { baseURL } from "@/app/resources";
-import { about, person, work } from "@/app/resources/content";
-import { formatDate } from "@/app/utils/formatDate";
 import ScrollToHash from "@/components/ScrollToHash";
 import { Metadata } from "next";
-import { Meta, Schema } from "@/once-ui/modules";
+import { headers, cookies } from 'next/headers';
+import type { Language } from '@/atoms/language';
+import { ProjectDetail } from "@/components/work/ProjectDetail";
+import { CustomMDX } from "@/components/mdx";
 
-export async function generateStaticParams(): Promise<{ slug: string }[]> {
-  const posts = getPosts(["src", "app", "work", "projects"]);
-  return posts.map((post) => ({
-    slug: post.slug,
-  }));
+// Force dynamic rendering to ensure cookies are read on each request
+export const dynamic = 'force-dynamic';
+
+interface Props {
+  params: Promise<{
+    slug: string;
+  }>;
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string | string[] }>;
-}): Promise<Metadata> {
-  const routeParams = await params;
-  const slugPath = Array.isArray(routeParams.slug) ? routeParams.slug.join('/') : routeParams.slug || '';
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  
+  // Get language from cookie first
+  const languageCookie = (await cookies()).get('language')?.value as Language;
+  
+  let language: Language;
+  if (languageCookie) {
+    language = languageCookie;
+  } else {
+    // Fallback to Accept-Language header from browser
+    const acceptLang = (await headers()).get('accept-language') || '';
+    language = acceptLang.toLowerCase().includes('fr') ? 'FR' : 'EN';
+  }
+  
+  const projects = getProjects(undefined, language);
+  const project = projects.find((project) => project.slug === slug);
 
-  const posts = getPosts(["src", "app", "work", "projects"])
-  let post = posts.find((post) => post.slug === slugPath);
+  if (!project) {
+    return {
+      title: "Project not found",
+    };
+  }
 
-  if (!post) return {};
+  const { title, publishedAt: publishedTime, summary: description, image } = project.metadata;
 
-  return Meta.generate({
-    title: post.metadata.title,
-    description: post.metadata.summary,
-    baseURL: baseURL,
-    image: post.metadata.image ? `${baseURL}${post.metadata.image}` : `${baseURL}/og?title=${post.metadata.title}`,
-    path: `${work.path}/${post.slug}`,
-  });
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "article",
+      publishedTime,
+      url: `${baseURL}/work/${project.slug}`,
+      images: [
+        {
+          url: image || `${baseURL}/og?title=${encodeURIComponent(title)}`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [image || `${baseURL}/og?title=${encodeURIComponent(title)}`],
+    },
+  };
 }
 
-export default async function Project({
-  params
-}: { params: Promise<{ slug: string | string[] }> }) {
-  const routeParams = await params;
-  const slugPath = Array.isArray(routeParams.slug) ? routeParams.slug.join('/') : routeParams.slug || '';
+export default async function Project({ params }: { params: { slug: string } }) {
+  // Get language from cookie first
+  const languageCookie = (await cookies()).get('language')?.value as Language;
+  
+  let language: Language;
+  if (languageCookie) {
+    language = languageCookie;
+  } else {
+    // Fallback to Accept-Language header from browser
+    const acceptLang = (await headers()).get('accept-language') || '';
+    const browserLanguage = acceptLang.toLowerCase().includes('fr') ? 'FR' : 'EN';
+    language = browserLanguage;
+  }
 
-  let post = getPosts(["src", "app", "work", "projects"]).find((post) => post.slug === slugPath);
+  const { slug } = await params;
+  const projects = getProjects(undefined, language);
+  const project = projects.find((project) => project.slug === slug);
 
-  if (!post) {
+  if (!project) {
     notFound();
   }
 
-  const avatars =
-    post.metadata.team?.map((person) => ({
-      src: person.avatar,
-    })) || [];
-
   return (
-    <Column as="section" maxWidth="m" horizontal="center" gap="l">
-      <Schema
-        as="blogPosting"
-        baseURL={baseURL}
-        path={`${work.path}/${post.slug}`}
-        title={post.metadata.title}
-        description={post.metadata.summary}
-        datePublished={post.metadata.publishedAt}
-        dateModified={post.metadata.publishedAt}
-        image={`${baseURL}/og?title=${encodeURIComponent(post.metadata.title)}`}
-        author={{
-          name: person.name,
-          url: `${baseURL}${about.path}`,
-          image: `${baseURL}${person.avatar}`,
-        }}
-      />
-      <Column maxWidth="xs" gap="16">
-        <Button data-border="rounded" href="/work" variant="tertiary" weight="default" size="s" prefixIcon="chevronLeft">
-          Projects
-        </Button>
-        <Heading variant="display-strong-s">{post.metadata.title}</Heading>
-      </Column>
-      {post.metadata.images.length > 0 && (
-        <SmartImage
-          priority
-          aspectRatio="16 / 9"
-          radius="m"
-          alt="image"
-          src={post.metadata.images[0]}
-        />
-      )}
-      <Column style={{ margin: "auto" }} as="article" maxWidth="xs">
-        <Flex gap="12" marginBottom="24" vertical="center">
-          {post.metadata.team && <AvatarGroup reverse avatars={avatars} size="m" />}
-          <Text variant="body-default-s" onBackground="neutral-weak">
-            {post.metadata.publishedAt && formatDate(post.metadata.publishedAt)}
-          </Text>
-        </Flex>
-        <CustomMDX source={post.content} />
-      </Column>
+    <>
       <ScrollToHash />
-    </Column>
+      <ProjectDetail 
+        project={project} 
+        serverLanguage={language}
+      >
+        <CustomMDX source={project.content} />
+      </ProjectDetail>
+    </>
   );
 }

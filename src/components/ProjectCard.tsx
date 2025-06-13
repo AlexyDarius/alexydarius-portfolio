@@ -19,6 +19,7 @@ interface ProjectCardProps {
   description: string;
   avatars: { src: string }[];
   link: string;
+  "data-testid"?: string;
 }
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({
@@ -29,9 +30,10 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   description,
   avatars,
   link,
+  "data-testid": dataTestId,
 }) => {
   return (
-    <Column fillWidth gap="m">
+    <Column fillWidth gap="m" data-testid={dataTestId}>
       <Carousel
         sizes="(max-width: 960px) 100vw, 960px"
         images={images.map((image) => ({
