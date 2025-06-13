@@ -14,8 +14,8 @@ export async function generateMetadata() {
     path: home.path,
   });
 }
-
 export default async function Home() {
   const projects = getProjects([1, 1]);
   return <HomeContent projects={projects} />;
 }
+

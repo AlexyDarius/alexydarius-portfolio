@@ -15,7 +15,6 @@ export async function generateMetadata() {
     path: work.path,
   });
 }
-
 export default async function Work() {
   const { work, about, person } = defaultContent;
   const projects = getProjects();
@@ -39,3 +38,4 @@ export default async function Work() {
     </Column>
   );
 }
+
