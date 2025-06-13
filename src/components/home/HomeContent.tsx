@@ -5,6 +5,7 @@ import { Heading, Flex, Text, Button, Avatar, RevealFx, Column, Badge, Row } fro
 import { baseURL } from "@/app/resources";
 import { Schema } from "@/once-ui/modules";
 import { useContent } from "@/app/resources/useContent";
+import { Projects } from "@/components/work/Projects";
 
 export function HomeContent() {
   const { home, about, person, newsletter } = useContent();
@@ -73,6 +74,9 @@ export function HomeContent() {
             </Button>
           </RevealFx>
         </Column>
+        <RevealFx translateY="16" delay={0.6}>
+          <Projects range={[1, 1]} />
+        </RevealFx>
       </Column>
     </Column>
   );
