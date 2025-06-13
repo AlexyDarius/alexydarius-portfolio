@@ -9,6 +9,8 @@ import {
   SmartLink,
   Text,
 } from "@/once-ui/components";
+import { useAtom } from 'jotai';
+import { languageAtom } from '@/atoms/language';
 
 interface ProjectCardProps {
   href: string;
@@ -32,6 +34,22 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   link,
   "data-testid": dataTestId,
 }) => {
+  const [language] = useAtom(languageAtom);
+  
+  const getText = (key: 'readCaseStudy' | 'viewProject') => {
+    const translations = {
+      'readCaseStudy': {
+        'EN': 'Read case study',
+        'FR': 'Lire l\'étude de cas'
+      },
+      'viewProject': {
+        'EN': 'View project',
+        'FR': 'Voir le projet'
+      }
+    };
+    return translations[key][language] || translations[key]['EN'];
+  };
+
   return (
     <Column fillWidth gap="m" data-testid={dataTestId}>
       <Carousel
@@ -71,7 +89,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                   style={{ margin: "0", width: "fit-content" }}
                   href={href}
                 >
-                  <Text variant="body-default-s">Read case study</Text>
+                  <Text variant="body-default-s">{getText('readCaseStudy')}</Text>
                 </SmartLink>
               )}
               {link && (
@@ -80,7 +98,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                   style={{ margin: "0", width: "fit-content" }}
                   href={link}
                 >
-                  <Text variant="body-default-s">View project</Text>
+                  <Text variant="body-default-s">{getText('viewProject')}</Text>
                 </SmartLink>
               )}
             </Flex>

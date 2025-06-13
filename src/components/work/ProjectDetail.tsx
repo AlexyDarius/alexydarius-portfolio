@@ -28,6 +28,10 @@ export function ProjectDetail({ project, serverLanguage, children }: ProjectDeta
     }
   }, [language, serverLanguage]);
 
+  const getViewProjectText = () => {
+    return language === 'FR' ? 'Voir le projet' : 'View Project';
+  };
+
   return (
     <Column maxWidth="m" gap="xl">
       <script
@@ -100,7 +104,7 @@ export function ProjectDetail({ project, serverLanguage, children }: ProjectDeta
         )}
         {project.metadata.link && (
           <Button href={project.metadata.link} variant="secondary" size="m">
-            View Project
+            {getViewProjectText()}
           </Button>
         )}
       </Column>
