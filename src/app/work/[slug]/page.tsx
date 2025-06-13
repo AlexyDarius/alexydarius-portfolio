@@ -67,7 +67,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function Project({ params }: { params: { slug: string } }) {
+export default async function Project({ params }: Props) {
   // Get language from cookie first
   const languageCookie = (await cookies()).get('language')?.value as Language;
   
