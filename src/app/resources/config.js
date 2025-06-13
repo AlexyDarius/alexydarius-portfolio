@@ -3,7 +3,7 @@ const baseURL = "https://alexyroman.com";
 const routes = {
   "/": true,
   "/about": true,
-  "/work": false,
+  "/work": true,
   "/blog": false,
   "/gallery": false,
 };

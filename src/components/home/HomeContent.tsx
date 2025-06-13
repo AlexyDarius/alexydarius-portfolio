@@ -6,8 +6,13 @@ import { baseURL } from "@/app/resources";
 import { Schema } from "@/once-ui/modules";
 import { useContent } from "@/app/resources/useContent";
 import { Projects } from "@/components/work/Projects";
+import { Project } from "@/app/utils/projects";
 
-export function HomeContent() {
+interface HomeContentProps {
+  projects: Project[];
+}
+
+export function HomeContent({ projects }: HomeContentProps) {
   const { home, about, person, newsletter } = useContent();
 
   return (
@@ -75,7 +80,7 @@ export function HomeContent() {
           </RevealFx>
         </Column>
         <RevealFx translateY="16" delay={0.6}>
-          <Projects range={[1, 1]} />
+          <Projects projects={projects} />
         </RevealFx>
       </Column>
     </Column>
