@@ -3,6 +3,8 @@
 import { Column, Flex, Heading, SmartImage, SmartLink, Tag, Text } from '@/once-ui/components';
 import styles from './Posts.module.scss';
 import { formatDate } from '@/app/utils/formatDate';
+import { useAtom } from 'jotai';
+import { languageAtom } from '@/atoms/language';
 
 interface PostProps {
     post: any;
@@ -11,6 +13,8 @@ interface PostProps {
 }
 
 export default function Post({ post, thumbnail, direction }: PostProps) {
+    const [language] = useAtom(languageAtom);
+    
     return (
         <SmartLink
             fillWidth
@@ -53,7 +57,7 @@ export default function Post({ post, thumbnail, direction }: PostProps) {
                     <Text
                         variant="label-default-s"
                         onBackground="neutral-weak">
-                        {formatDate(post.metadata.publishedAt, false)}
+                        {formatDate(post.metadata.publishedAt, false, language)}
                     </Text>
                     { post.metadata.tag &&
                         <Tag

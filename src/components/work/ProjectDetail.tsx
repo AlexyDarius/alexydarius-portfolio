@@ -55,7 +55,7 @@ export function ProjectDetail({ project, serverLanguage, children }: ProjectDeta
       <Column gap="l">
         <Column gap="m">
           <Text variant="label-default-s" onBackground="neutral-weak">
-            {formatDate(project.metadata.publishedAt)}
+            {formatDate(project.metadata.publishedAt, false, language)}
           </Text>
           <Heading variant="display-strong-s">{project.metadata.title}</Heading>
           <Text variant="body-default-l" onBackground="neutral-weak">
