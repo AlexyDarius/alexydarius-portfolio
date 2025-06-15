@@ -5,25 +5,34 @@ import { Heading, Flex, Text, Button, Avatar, RevealFx, Column, Badge, Row } fro
 import { baseURL } from "@/app/resources";
 import { Schema } from "@/once-ui/modules";
 import { useContent } from "@/app/resources/useContent";
-import { Projects } from "@/components/work/Projects";
+import { ProjectsSection } from "@/components/work/ProjectsSection";
 import { Project } from "@/types/project";
 import { useAtom } from 'jotai';
 import { languageAtom, type Language } from '@/atoms/language';
 import { useEffect } from 'react';
 
 interface HomeContentProps {
-  projects: Project[];
+  latestProjects: Project[];
+  starredProjects: Project[];
   serverLanguage: Language;
 }
 
-export function HomeContent({ projects, serverLanguage }: HomeContentProps) {
-  const [, setLanguage] = useAtom(languageAtom);
+export function HomeContent({ latestProjects, starredProjects, serverLanguage }: HomeContentProps) {
+  const [language, setLanguage] = useAtom(languageAtom);
   const { home, about, person, newsletter } = useContent();
 
   // Sync server language with client language atom
   useEffect(() => {
     setLanguage(serverLanguage);
   }, [serverLanguage, setLanguage]);
+
+  const getLatestProjectText = () => {
+    return language === 'FR' ? 'Projet récent' : 'Latest Project';
+  };
+
+  const getStarredProjectsText = () => {
+    return language === 'FR' ? 'Projets en lumière' : 'Starred Projects';
+  };
 
   return (
     <Column maxWidth="m" gap="xl" horizontal="center">
@@ -89,9 +98,22 @@ export function HomeContent({ projects, serverLanguage }: HomeContentProps) {
             </Button>
           </RevealFx>
         </Column>
-        <RevealFx translateY="16" delay={0.6}>
-          <Projects projects={projects} range={[1, 1]} />
-        </RevealFx>
+        {latestProjects.length > 0 && (
+          <RevealFx translateY="8" delay={0.6} paddingTop="l">
+            <ProjectsSection
+              projects={latestProjects}
+              title={getLatestProjectText()}
+            />
+          </RevealFx>
+        )}
+        {starredProjects.length > 0 && (
+          <RevealFx translateY="8" delay={0.8} paddingTop="l">
+            <ProjectsSection
+              projects={starredProjects}
+              title={getStarredProjectsText()}
+            />
+          </RevealFx>
+        )}
       </Column>
     </Column>
   );

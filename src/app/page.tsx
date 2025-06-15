@@ -3,7 +3,7 @@ import { Meta } from "@/once-ui/modules";
 import { baseURL } from "@/app/resources";
 import * as defaultContent from "@/app/resources/content";
 import { HomeContent } from "@/components/home/HomeContent";
-import { getProjects } from "@/app/utils/projects";
+import { getProjects, getStarredProjects } from "@/app/utils/projects";
 import { headers, cookies } from 'next/headers';
 import type { Language } from '@/atoms/language';
 
@@ -33,12 +33,14 @@ export default async function Home() {
     language = acceptLang.toLowerCase().includes('fr') ? 'FR' : 'EN';
   }
 
-  // Load projects based on detected language
-  const projects = getProjects([1, 1], language);
+  // Load latest project and starred projects based on detected language
+  const latestProjects = getProjects([1, 1], language);
+  const starredProjects = getStarredProjects(language);
 
   return (
     <HomeContent 
-      projects={projects} 
+      latestProjects={latestProjects} 
+      starredProjects={starredProjects}
       serverLanguage={language}
     />
   );

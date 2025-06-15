@@ -1,11 +1,11 @@
 import { notFound } from "next/navigation";
-import { getProjects } from "@/app/utils/projects";
+import { getProjectInBothLanguages } from "@/app/utils/projects";
 import { baseURL } from "@/app/resources";
 import ScrollToHash from "@/components/ScrollToHash";
 import { Metadata } from "next";
 import { headers, cookies } from 'next/headers';
 import type { Language } from '@/atoms/language';
-import { ProjectDetail } from "@/components/work/ProjectDetail";
+import { ProjectDetailWithLanguages } from "@/components/work/ProjectDetailWithLanguages";
 import { CustomMDX } from "@/components/mdx";
 
 // Force dynamic rendering to ensure cookies are read on each request
@@ -32,8 +32,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     language = acceptLang.toLowerCase().includes('fr') ? 'FR' : 'EN';
   }
   
-  const projects = getProjects(undefined, language);
-  const project = projects.find((project) => project.slug === slug);
+  const projects = getProjectInBothLanguages(slug);
+  const project = language === 'FR' ? projects.fr : projects.en;
 
   if (!project) {
     return {
@@ -82,22 +82,25 @@ export default async function Project({ params }: Props) {
   }
 
   const { slug } = await params;
-  const projects = getProjects(undefined, language);
-  const project = projects.find((project) => project.slug === slug);
+  const projects = getProjectInBothLanguages(slug);
 
-  if (!project) {
+  // If neither language version exists, return 404
+  if (!projects.en && !projects.fr) {
     notFound();
   }
 
   return (
     <>
       <ScrollToHash />
-      <ProjectDetail 
-        project={project} 
+      <ProjectDetailWithLanguages 
+        projects={projects}
         serverLanguage={language}
       >
-        <CustomMDX source={project.content} />
-      </ProjectDetail>
+        {{
+          en: projects.en ? <CustomMDX source={projects.en.content} /> : null,
+          fr: projects.fr ? <CustomMDX source={projects.fr.content} /> : null,
+        }}
+      </ProjectDetailWithLanguages>
     </>
   );
 }

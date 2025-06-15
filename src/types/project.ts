@@ -9,6 +9,7 @@ export interface Project {
     tag: string[];
     team: Array<{ avatar: string }>;
     link: string;
+    starred?: boolean;
   };
   content: string;
 } 

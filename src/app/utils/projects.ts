@@ -37,6 +37,7 @@ function readMDXFile(filePath: string): Project | null {
     tag: data.tag || [],
     team: data.team || [],
     link: data.link || "",
+    starred: data.starred || false,
   };
 
   // Remove .fr from slug for French files to keep URLs consistent
@@ -61,4 +62,24 @@ export function getProjects(range?: [number, number?], language: Language = 'EN'
   }
 
   return projects;
+}
+
+export function getStarredProjects(language: Language = 'EN'): Project[] {
+  const allProjects = getProjects(undefined, language);
+  return allProjects.filter(project => project.metadata.starred);
+}
+
+export function getProjectBySlug(slug: string, language: Language = 'EN'): Project | null {
+  const projects = getProjects(undefined, language);
+  return projects.find(project => project.slug === slug) || null;
+}
+
+export function getProjectInBothLanguages(slug: string): { en: Project | null, fr: Project | null } {
+  const enProject = getProjectBySlug(slug, 'EN');
+  const frProject = getProjectBySlug(slug, 'FR');
+  
+  return {
+    en: enProject,
+    fr: frProject
+  };
 } 
