@@ -191,12 +191,19 @@ export function CookieConsent() {
                   {texts.analytics.description}
                 </Text>
               </Column>
-              <Switch
-                isChecked={preferences.analytics}
-                onToggle={() => 
-                  updatePreferences({ analytics: !preferences.analytics })
-                }
-              />
+              <div style={{
+                '--brand-solid-medium': preferences.analytics ? '#ffffff' : 'var(--neutral-solid-medium)',
+                '--brand-solid-strong': preferences.analytics ? '#f0f0f0' : 'var(--neutral-solid-strong)',
+                '--brand-on-solid-strong': preferences.analytics ? '#000000' : '#ffffff',
+                '--solid-border-color-brand': preferences.analytics ? '#ffffff' : 'var(--solid-border-color-neutral)'
+              } as React.CSSProperties}>
+                <Switch
+                  isChecked={preferences.analytics}
+                  onToggle={() => 
+                    updatePreferences({ analytics: !preferences.analytics })
+                  }
+                />
+              </div>
             </Flex>
             
             <Flex gap="s" horizontal="end" paddingTop="m">
