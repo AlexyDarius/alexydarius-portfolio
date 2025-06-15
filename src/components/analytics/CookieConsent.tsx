@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { Button, Text, Flex, Column, Heading, Switch } from '@/once-ui/components';
+import { Button, Text, Flex, Column, Heading, Switch, SmartLink } from '@/once-ui/components';
 import { useAtom } from 'jotai';
 import { languageAtom } from '@/atoms/language';
 import { useCookieConsent } from '@/hooks/useCookieConsent';
@@ -47,7 +47,8 @@ export function CookieConsent() {
         denyAll: 'Tout refuser',
         customize: 'Personnaliser',
         save: 'Sauvegarder',
-        cancel: 'Annuler'
+        cancel: 'Annuler',
+        learnMore: 'En savoir plus'
       };
     }
     return {
@@ -65,7 +66,8 @@ export function CookieConsent() {
       denyAll: 'Deny All',
       customize: 'Customize',
       save: 'Save Preferences',
-      cancel: 'Cancel'
+      cancel: 'Cancel',
+      learnMore: 'Learn more'
     };
   };
 
@@ -98,7 +100,17 @@ export function CookieConsent() {
                 {texts.title}
               </Heading>
               <Text variant="body-default-s" onBackground="neutral-weak">
-                {texts.description}
+                {texts.description}{' '}
+                <SmartLink 
+                  href="/cookie-policy" 
+                  style={{ 
+                    color: 'var(--neutral-on-background-strong)',
+                    textDecoration: 'underline',
+                    fontWeight: '500'
+                  }}
+                >
+                  {texts.learnMore}
+                </SmartLink>
               </Text>
             </Column>
             <Flex gap="s" horizontal="end" fillWidth wrap>

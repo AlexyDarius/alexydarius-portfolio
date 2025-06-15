@@ -61,7 +61,7 @@ const home = {
   },
   subline: (
     <>
-      I’m Alexy, a Systems & Software Engineer at <InlineCode>H3 Dynamics</InlineCode>, where I design aeronautical-grade hydrogen fuel cells systems. I also create methods and tools that help our engineers stay connected and aligned — bringing together design, systems engineering, and safety into a shared, collaborative workflow, supported by custom software I craft to fit our specific needs.
+      I'm Alexy, a Systems & Software Engineer at <InlineCode>H3 Dynamics</InlineCode>, where I design aeronautical-grade hydrogen fuel cells systems. I also create methods and tools that help our engineers stay connected and aligned — bringing together design, systems engineering, and safety into a shared, collaborative workflow, supported by custom software I craft to fit our specific needs.
     </>
   ),
 };
@@ -197,4 +197,158 @@ const gallery = {
   ],
 };
 
-export { person, social, newsletter, home, about, blog, work, gallery };
+const legal = {
+  privacyPolicy: {
+    path: "/privacy-policy",
+    title: "Privacy Policy",
+    lastUpdated: "January 2024",
+    sections: {
+      introduction: {
+        title: "1. Introduction",
+        content: "This privacy policy describes how personal data is collected, used, and protected when you visit alexyroman.com."
+      },
+      dataController: {
+        title: "2. Data Controller",
+        content: {
+          name: "Alexy Roman",
+          email: person.email,
+          address: "Toulouse, France"
+        }
+      },
+      dataTypes: {
+        title: "3. Types of Data Collected",
+        items: [
+          "IP address",
+          "Browser type and version", 
+          "Pages visited",
+          "Date and time of access",
+          "Referrer URL",
+          "Contact form data (if applicable)"
+        ]
+      },
+      purpose: {
+        title: "4. Purpose and Legal Basis",
+        content: "Your data is processed:",
+        items: [
+          "For website analytics (based on your consent)",
+          "To ensure website functionality and security (legitimate interest)"
+        ]
+      },
+      processors: {
+        title: "5. Data Processors and Third Parties",
+        content: "Your data may be processed by:",
+        vercel: {
+          name: "Vercel Inc.",
+          role: "hosting provider",
+          address: "340 S Lemon Ave #4133, Walnut, CA 91789, USA",
+          privacy: "https://vercel.com/legal/privacy-policy"
+        },
+        analytics: "Google Analytics (if consented to analytics cookies)"
+      },
+      retention: {
+        title: "6. Data Retention",
+        content: "We keep personal data only as long as necessary for its intended purpose."
+      },
+      rights: {
+        title: "7. User Rights (under GDPR)",
+        content: "You have the right to:",
+        items: [
+          "Access your data",
+          "Request correction or deletion",
+          "Restrict or object to processing", 
+          "Data portability",
+          "Lodge a complaint with a supervisory authority"
+        ]
+      },
+      cookies: {
+        title: "8. Cookies and Tracking",
+        content: "Please refer to our Cookie Policy for details."
+      },
+      security: {
+        title: "9. Security", 
+        content: "We implement appropriate technical and organizational measures to protect your data."
+      },
+      contact: {
+        title: "10. Contact",
+        content: `For any privacy-related questions, contact: ${person.email}`
+      }
+    }
+  },
+  legalNotice: {
+    path: "/legal-notice",
+    title: "Legal Notice / Impressum",
+    sections: {
+      owner: {
+        title: "Website Owner",
+        content: person.name
+      },
+      contact: {
+        title: "Contact",
+        email: person.email,
+        address: "Toulouse, France",
+        website: "https://alexyroman.com"
+      },
+      hosting: {
+        title: "Hosting Provider",
+        name: "Vercel Inc.",
+        address: ["340 S Lemon Ave #4133", "Walnut, CA 91789", "USA"],
+        website: "https://vercel.com/"
+      },
+      responsible: {
+        title: "Responsible for Content",
+        content: person.name
+      },
+      disclaimer: {
+        content: "This website is a personal portfolio and does not represent a commercial activity."
+      }
+    }
+  },
+  cookiePolicy: {
+    path: "/cookie-policy", 
+    title: "Cookie Policy",
+    lastUpdated: "January 2024",
+    sections: {
+      what: {
+        title: "1. What Are Cookies?",
+        content: "Cookies are small text files stored on your device to enhance site functionality and user experience."
+      },
+      types: {
+        title: "2. Types of Cookies We Use",
+        essential: "Essential Cookies: Required for the basic operation of the website.",
+        analytics: "Analytics Cookies: (Only if consented) Used to analyze traffic and usage patterns."
+      },
+      used: {
+        title: "3. Cookies Used",
+        items: [
+          { name: "cookie-consent", purpose: "Stores your cookie preferences" },
+          { name: "language", purpose: "Remembers your language preference" },
+          { name: "theme", purpose: "Remembers your dark/light mode preference" },
+          { name: "Google Analytics cookies", purpose: "(Only if analytics cookies are enabled)" }
+        ]
+      },
+      thirdParty: {
+        title: "4. Third-Party Cookies",
+        content: "Third-party services (e.g., Google Analytics) may place cookies if you have consented to analytics cookies."
+      },
+      duration: {
+        title: "5. Cookie Duration",
+        session: "Session cookies: Expire when browser is closed",
+        persistent: "Persistent cookies: Expire after a set time (our consent expires after 30 days)"
+      },
+      managing: {
+        title: "6. Managing Cookies",
+        content: "You can manage or delete cookies in your browser settings. You can also change your preferences using our cookie banner when it appears, or by clearing your browser data to reset your choices."
+      },
+      consent: {
+        title: "7. Consent",
+        content: "Non-essential cookies are only used if you have given explicit consent via our cookie banner. Essential cookies are always active as they are necessary for the website to function properly."
+      },
+      contact: {
+        title: "8. Contact",
+        content: `If you have any questions about our cookie policy, contact: ${person.email}`
+      }
+    }
+  }
+};
+
+export { person, social, newsletter, home, about, blog, work, gallery, legal };

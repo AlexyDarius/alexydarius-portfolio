@@ -1,9 +1,21 @@
+"use client";
+
 import { Flex, IconButton, SmartLink, Text } from "@/once-ui/components";
 import { person, social } from "@/app/resources/content";
+import { useAtom } from 'jotai';
+import { languageAtom } from '@/atoms/language';
 import styles from "./Footer.module.scss";
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const [language] = useAtom(languageAtom);
+
+  // Legal page names based on language
+  const legalPageNames = {
+    privacyPolicy: language === 'EN' ? 'Privacy Policy' : 'Politique de confidentialité',
+    legalNotice: language === 'EN' ? 'Legal Notice' : 'Mentions légales',
+    cookiePolicy: language === 'EN' ? 'Cookie Policy' : 'Politique de cookies'
+  };
 
   return (
     <Flex
@@ -51,6 +63,62 @@ export const Footer = () => {
           )}
         </Flex>
       </Flex>
+      
+      {/* Legal Links */}
+      <Flex 
+        maxWidth="m" 
+        paddingX="16" 
+        paddingBottom="8"
+        gap="8" 
+        horizontal="center" 
+        wrap
+      >
+        <SmartLink 
+          href="/privacy-policy"
+          style={{ 
+            fontSize: '12px', 
+            color: 'var(--neutral-weak)',
+            textDecoration: 'none'
+          }}
+        >
+          {legalPageNames.privacyPolicy}
+        </SmartLink>
+        <Text 
+          variant="body-default-xs" 
+          onBackground="neutral-weak"
+          style={{ fontSize: '12px' }}
+        >
+          •
+        </Text>
+        <SmartLink 
+          href="/legal-notice"
+          style={{ 
+            fontSize: '12px', 
+            color: 'var(--neutral-weak)',
+            textDecoration: 'none'
+          }}
+        >
+          {legalPageNames.legalNotice}
+        </SmartLink>
+        <Text 
+          variant="body-default-xs" 
+          onBackground="neutral-weak"
+          style={{ fontSize: '12px' }}
+        >
+          •
+        </Text>
+        <SmartLink 
+          href="/cookie-policy"
+          style={{ 
+            fontSize: '12px', 
+            color: 'var(--neutral-weak)',
+            textDecoration: 'none'
+          }}
+        >
+          {legalPageNames.cookiePolicy}
+        </SmartLink>
+      </Flex>
+      
       <Flex height="80" show="s"></Flex>
     </Flex>
   );

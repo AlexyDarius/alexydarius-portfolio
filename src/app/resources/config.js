@@ -4,6 +4,9 @@ const routes = {
   "/": true,
   "/about": true,
   "/work": true,
+  "/privacy-policy": true,
+  "/legal-notice": true,
+  "/cookie-policy": true,
   "/blog": false,
   "/gallery": false,
 };
