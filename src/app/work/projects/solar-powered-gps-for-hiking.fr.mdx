@@ -3,8 +3,9 @@ title: "Traceur GPS Solaire pour la Randonnée"
 publishedAt: "2023-08-15"
 summary: "GPS autonome sous Arduino, conversion UTM, énergie solaire, précision 1 m"
 images:
-  - "/images/projects/solar-gps/cover.jpg"
-  - "/images/projects/solar-gps/device.jpg"
+  - "/images/projects/gps/gps-loc.jpg"
+  - "/images/projects/gps/gps-intern.jpg"
+  - "/images/projects/gps/gps-ext.jpg"
 tag: ["Arduino", "C++", "Systèmes embarqués", "GPS", "Solaire"]
 team:
   - name: "Alexy Roman"
@@ -33,25 +34,25 @@ Le dispositif capte les données GPS – latitude, longitude, altitude, vitesse,
 ## Fonctionnalités clé
 
 - **Arduino Nano (32 Ko flash, 2 Ko SRAM)** — optimisation max  
-- **Module GPS** (Ex : NEO‑6M) en liaison série  
+- **Module GPS** (Quectel LR80E) en liaison série  
 - **Écran OLED I²C** pour visualiser les données en direct  
-- **Système énergétique solaire** avec circuit de charge Li-ion  
+- **Système énergétique solaire** avec circuit de charge Li-Po 
 - **Conversion UTM** implémentée en C++ via transformées matricielles  
 - **Optimisation mémoire** : routines distinctes pour math et UI  
 
 ## Tech stack
 
 - **Arduino Nano**, **C++ bas‑niveau**
-- **TinyGPS++** pour parser le flux NMEA
+- **TinyGPS++** pour parser le flux GPS
 - **Calculs UTM personnalisés** en C++
-- **OLED I²C** (SSD1306 ou équivalent)
+- **OLED I²C** Adafruit SSD1306
 - **Panneau solaire + TP4056**
 - **Référentiel sur GitHub** avec code complet, schémas et documentation
 
 ## Défis & apprentissages
 
 - Gérer les transformations géodésiques sous contraintes mémoire
-- Séparer les calculs intensifs du rendu graphique pour sauver la SRAM
+- Séparer les calculs intensifs du rendu graphique pour gérer la SRAM
 - Optimisation RAM : F() macros, PROGMEM, pas de String
 - Ajuster la charge solaire dans des conditions réelles variables
 

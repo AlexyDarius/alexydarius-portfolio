@@ -1,0 +1,58 @@
+---
+title: "FC Data Processor – Outil de Visualisation pour Données de Pile à Combustible"
+publishedAt: "2024-03-01"
+summary: "Application Python développée en autonomie durant un stage en ingénierie système pour faciliter l’analyse de fichiers volumineux"
+images:
+  - "/images/projects/fc-processor/cover.jpg"
+  - "/images/projects/fc-processor/ui.jpg"
+tag: ["Python", "Pile à Combustible", "Visualisation", "Optimisation"]
+team:
+  - name: "Alexy Roman"
+    role: "Ingénieur Software"
+    avatar: "/images/avatar.png"
+    linkedIn: "https://www.linkedin.com/in/alexyrfr"
+link: "https://github.com/AlexyDarius/FC-Data-Processor"
+---
+
+Ce projet a été développé **intégralement de manière autonome** pendant mon stage en **ingénierie système** chez **H3 Dynamics**. Mon poste ne concernait pas le développement logiciel, mais en voyant mon équipe en difficulté avec l’analyse de fichiers de données (plus de 1 Go), j’ai pris l’initiative de concevoir cet outil.
+
+## Vue d’ensemble
+
+**FC Data Processor** est une application Python avec interface graphique permettant de visualiser rapidement des fichiers de données issus de systèmes pile à combustible. Grâce à une méthode de lecture partielle intelligente (entêtes + colonnes sélectionnées), elle permet de traiter efficacement des fichiers massifs sans plantage.
+
+## Réalisations
+
+- 📊 Outil modulaire complet avec plus de 6 modules de tracé
+- 🧠 Lecture intelligente : uniquement les entêtes et les colonnes utiles
+- ⚡ Supporte les fichiers >1 Go là où Excel ou pandas échouent
+- 🛠 Projet 100 % personnel hors du périmètre de stage, pour aider l’équipe
+- 🧪 Système paramétrique avancé avec filtres, synchronisation, stats, etc.
+
+## Fonctionnalités clés
+
+- **Interface modulaire** : IV Curves, Profils temporels, Convertisseur, Différentiel, CVM Min, etc.
+- **Personnalisation poussée** : titres, axes, formules de conversion, tailles de points, stats affichées
+- **Compatibilité multiplateforme** : `.bat` Windows et `.sh` Mac/Linux
+- **Optimisation mémoire** : séparation entre rendu graphique et calculs
+- **Traitement intelligent des données** : filtrage d’aberrations, extraction ciblée
+
+## Technologies utilisées
+
+- Python 3.x
+- pandas, numpy, matplotlib, openpyxl
+- Interface GUI via tkinter
+- Scripts shell & batch
+- Architecture modulaire par module
+
+## Défis et apprentissages
+
+- Créer une architecture réutilisable et claire pour des utilisateurs non développeurs
+- Gérer des données lourdes sans surcharger la RAM
+- Intégrer un moteur de configuration adaptable à chaque module
+- Faire tout cela en parallèle de mon stage, sans impact sur mes missions officielles
+
+## Résultat
+
+Cet outil a été utilisé pendant la campagne de tests FCS chez H3 Dynamics et a permis une **analyse rapide et fiable** des données là où les outils standards échouaient. Une belle démonstration de la valeur que peut apporter une initiative technique bien ciblée.
+
+[🔗 Dépôt GitHub](https://github.com/AlexyDarius/FC-Data-Processor)

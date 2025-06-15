@@ -3,8 +3,9 @@ title: "Solar-Powered GPS Tracker for Hiking"
 publishedAt: "2023-08-15"
 summary: "An autonomous Arduino-based GPS tracker with UTM conversion, solar charging, and rugged reliability"
 images:
-  - "/images/projects/solar-gps/cover.jpg"
-  - "/images/projects/solar-gps/device.jpg"
+  - "/images/projects/gps/gps-loc.jpg"
+  - "/images/projects/gps/gps-intern.jpg"
+  - "/images/projects/gps/gps-ext.jpg"
 tag: ["Arduino", "C++", "Embedded", "GPS", "Solar"]
 team:
   - name: "Alexy Roman"
@@ -24,16 +25,16 @@ The full code, PCB schematics, and wiring details are available on GitHub: [Ardu
 
 ## Key Achievements
 
-- 🛰️ Real-time display of GPS data: lat/lon, altitude, speed, signal strength  
+- 🛰️ Real-time display of GPS data: lat/lon, altitude, heading, speed, signal strength  
 - 🔁 Custom C++ routines for **lat/long → UTM** transformation with matrix math  
-- ☀️ Fully solar-powered via charging module + Li-ion battery  
-- 🎯 Achieves **±1 m accuracy**, vital for terrain navigation  
-- ⚡ Optimized for **2 KB of RAM**, decoupling complex math from display logic  
+- ☀️ Fully solar-powered via charging module + Lipo battery  
+- 🎯 Achieves **±5 m accuracy** in mountain environment, vital for terrain navigation  
+- ⚡ Optimized for **2kB RAM*, decoupling complex math from display logic  
 
 ## Key Features
 
 - **Arduino Nano (32 KB flash, 2 KB SRAM)** — extreme memory constraints drove careful optimizations  
-- **GPS Module** (e.g., NEO‑6M/u‑blox), connected via serial  
+- **GPS Module** (Quectel L80RE), connected via serial  
 - **OLED Display** (I²C) showing all live data in a compact layout  
 - **Solar Charging Circuit** with TP4056 charger and panel for sustainable operation  
 - **Coordinate Conversion** implemented using matrix transformations directly in C++  
@@ -42,10 +43,10 @@ The full code, PCB schematics, and wiring details are available on GitHub: [Ardu
 ## Technologies Used
 
 - **Arduino Nano**, **C++**, direct AVR register usage  
-- **TinyGPS++** for parsing NMEA sentences  
+- **TinyGPS++** for parsing GPS sentences  
 - Custom **matrix-based UTM conversion** routines  
-- **I²C OLED** (Adafruit SSD1306 or equivalent)  
-- **Solar Li-ion power system** with charger/control  
+- **I²C OLED** Adafruit SSD1306  
+- **Solar Li-Po power system** with charger/control  
 - **GitHub repo** with full source, wiring diagrams, and usage documentation  
 
 ## Challenges & Learnings

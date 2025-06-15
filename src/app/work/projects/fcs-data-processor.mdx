@@ -1,0 +1,60 @@
+---
+title: "FC Data Processor – Fuel Cell System Plotting Toolkit"
+publishedAt: "2024-03-01"
+summary: "Standalone plotting toolkit for high-volume FCS data, developed independently during a systems engineering internship"
+images:
+  - "/images/projects/fc-processor/cover.jpg"
+  - "/images/projects/fc-processor/ui.jpg"
+tag: ["Python", "Fuel Cell", "Data Visualization", "AI Optimization"]
+team:
+  - name: "Alexy Roman"
+    role: "Software Developer"
+    avatar: "/images/avatar.png"
+    linkedIn: "https://www.linkedin.com/in/alexyrfr"
+link: "https://github.com/AlexyDarius/FC-Data-Processor"
+---
+
+This tool was developed **entirely independently** during my systems engineering internship at **H3 Dynamics**. While my role wasn't related to software, I noticed the team struggling with huge CSV files from a test campaign — and decided to build a robust, AI-optimized plotting solution to help.
+
+## Overview
+
+**FC Data Processor** is a Python-based GUI application to process and visualize fuel cell system data. It supports files up to 1GB and uses **header-level scanning** with **selective column import**, enabling fast, memory-efficient analysis and plotting.
+
+I was the **sole developer** — this was not part of my assigned tasks, but a self-driven contribution to support engineering workflow during testing.
+
+## Key Achievements
+
+- 📈 Custom-built app supporting 6+ plotting modules
+- 🧠 Smart data import strategy: headers only + selected columns
+- ⚡ Efficient on files >1GB that crash Excel or pandas normally
+- 🛠 Fully developed outside of internship scope to help my colleagues
+- 💡 AI-powered UI behavior for usability and memory efficiency
+
+## Key Features
+
+- **Modular GUI**: IV Curves, Free Plotter, Profiles, Conversion, Differential, CVM Min, etc.
+- **Performance-Oriented**: Selects only useful data columns for import
+- **High Customizability**: Axes, labels, filters, conversions, line display, marker size, stats
+- **Cross-platform**: Works on Windows, Linux, Mac with `.bat` / `.sh` scripts
+- **Integrated Parameter System**: Easily configure behaviors per plotter
+
+## Technologies Used
+
+- Python 3
+- pandas, numpy, openpyxl, tkinter
+- Custom installer scripts (`.bat`, `.sh`)
+- CSV/XLS/XLSX parsing logic
+- Modular design pattern
+
+## Challenges and Learnings
+
+- Pushing performance boundaries of pandas and tkinter on heavy data
+- Memory decoupling: separating GUI rendering from matrix math
+- Creating a unified architecture across 10+ modules
+- Supporting both technical and non-technical users
+
+## Outcome
+
+The tool became **critical** during the fuel cell test campaign. It allowed the team to rapidly analyze and compare system performance, where traditional tools failed. For me, it proved the power of applied software in system engineering — and confirmed my interest in building solutions where they're needed most.
+
+[🔗 GitHub Repository](https://github.com/AlexyDarius/FC-Data-Processor)
