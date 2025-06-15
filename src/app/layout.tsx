@@ -5,6 +5,7 @@ import classNames from "classnames";
 
 import { Footer, Header, RouteGuard } from "@/components";
 import { CookieConsent } from "@/components/analytics/CookieConsent";
+import { GoogleAnalyticsProvider } from "@/components/analytics/GoogleAnalyticsProvider";
 import { baseURL, effects, style, font, home } from "@/app/resources";
 
 import { Background, Column, Flex, ThemeProvider, ToastProvider } from "@/once-ui/components";
@@ -71,6 +72,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       </head>
       <ThemeProvider>
         <ToastProvider>
+          <GoogleAnalyticsProvider />
           <Column style={{ minHeight: "100vh" }} as="body" fillWidth margin="0" padding="0">
             <Background
               position="fixed"

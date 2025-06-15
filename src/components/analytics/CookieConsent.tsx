@@ -1,90 +1,33 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Button, Text, Flex, Column, Heading, Switch } from '@/once-ui/components';
 import { useAtom } from 'jotai';
 import { languageAtom } from '@/atoms/language';
-
-interface CookiePreferences {
-  necessary: boolean;
-  analytics: boolean;
-  consentDate: string;
-}
-
-const COOKIE_EXPIRATION_DAYS = 30;
+import { useCookieConsent } from '@/hooks/useCookieConsent';
 
 export function CookieConsent() {
-  const [showBanner, setShowBanner] = useState(false);
   const [showPreferences, setShowPreferences] = useState(false);
   const [language] = useAtom(languageAtom);
-  const [preferences, setPreferences] = useState<CookiePreferences>({
-    necessary: true,
-    analytics: false,
-    consentDate: new Date().toISOString()
-  });
-
-  useEffect(() => {
-    // Check if consent exists and is still valid (1 month)
-    const consentData = localStorage.getItem('cookie-consent');
-    if (consentData) {
-      try {
-        const consent = JSON.parse(consentData);
-        const consentDate = new Date(consent.consentDate);
-        const now = new Date();
-        const daysSinceConsent = (now.getTime() - consentDate.getTime()) / (1000 * 3600 * 24);
-        
-        if (daysSinceConsent < COOKIE_EXPIRATION_DAYS) {
-          // Consent is still valid
-          setPreferences(consent);
-          return;
-        } else {
-          // Consent expired, remove it
-          localStorage.removeItem('cookie-consent');
-        }
-      } catch (error) {
-        // Invalid consent data, remove it
-        localStorage.removeItem('cookie-consent');
-      }
-    }
-    setShowBanner(true);
-  }, []);
-
-  const savePreferences = (prefs: CookiePreferences) => {
-    const prefsWithDate = {
-      ...prefs,
-      consentDate: new Date().toISOString()
-    };
-    localStorage.setItem('cookie-consent', JSON.stringify(prefsWithDate));
-    setPreferences(prefsWithDate);
-    setShowBanner(false);
-    setShowPreferences(false);
-
-    // Handle Google Analytics based on preference
-    if (prefs.analytics) {
-      console.log('Google Analytics enabled');
-      // Here you would initialize GA
-      // gtag('config', 'GA_MEASUREMENT_ID');
-    } else {
-      console.log('Google Analytics disabled');
-      // Here you would disable GA
-      // gtag('config', 'GA_MEASUREMENT_ID', { 'anonymize_ip': true });
-    }
-  };
+  const { hasConsent, preferences, updatePreferences } = useCookieConsent();
 
   const acceptAll = () => {
-    savePreferences({
+    updatePreferences({
       necessary: true,
-      analytics: true,
-      consentDate: new Date().toISOString()
+      analytics: true
     });
   };
 
   const denyAll = () => {
-    savePreferences({
-      necessary: true, // Always true as these are required
-      analytics: false,
-      consentDate: new Date().toISOString()
+    updatePreferences({
+      necessary: true,
+      analytics: false
     });
+  };
+
+  const savePreferences = () => {
+    updatePreferences(preferences);
+    setShowPreferences(false);
   };
 
   const getTexts = () => {
@@ -126,14 +69,15 @@ export function CookieConsent() {
     };
   };
 
-  if (!showBanner && !showPreferences) return null;
+  // Don't show banner if user has already given consent
+  if (hasConsent && !showPreferences) return null;
 
   const texts = getTexts();
 
   return (
     <>
       {/* Main Banner */}
-      {showBanner && !showPreferences && (
+      {!hasConsent && !showPreferences && (
         <Flex
           position="fixed"
           bottom="0"
@@ -250,7 +194,7 @@ export function CookieConsent() {
               <Switch
                 isChecked={preferences.analytics}
                 onToggle={() => 
-                  setPreferences(prev => ({ ...prev, analytics: !prev.analytics }))
+                  updatePreferences({ analytics: !preferences.analytics })
                 }
               />
             </Flex>
@@ -264,7 +208,7 @@ export function CookieConsent() {
                 {texts.cancel}
               </Button>
               <Button 
-                onClick={() => savePreferences(preferences)}
+                onClick={savePreferences}
                 style={{ 
                   backgroundColor: 'white',
                   color: 'black',
