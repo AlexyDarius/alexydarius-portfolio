@@ -6,7 +6,8 @@
     "export": "next export",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "sync-colors": "node scripts/sync-colors.js"
   },
   "dependencies": {
     "@floating-ui/react-dom": "^2.1.2",
