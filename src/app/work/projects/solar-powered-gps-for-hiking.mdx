@@ -1,0 +1,60 @@
+---
+title: "Solar-Powered GPS Tracker for Hiking"
+publishedAt: "2023-08-15"
+summary: "An autonomous Arduino-based GPS tracker with UTM conversion, solar charging, and rugged reliability"
+images:
+  - "/images/projects/solar-gps/cover.jpg"
+  - "/images/projects/solar-gps/device.jpg"
+tag: ["Arduino", "C++", "Embedded", "GPS", "Solar"]
+team:
+  - name: "Alexy Roman"
+    role: "Embedded Systems Engineer"
+    avatar: "/images/avatar.png"
+    linkedIn: "https://www.linkedin.com/in/alexyrfr"
+link: "https://github.com/AlexyDarius/Arduino-GPS-Display"
+---
+
+A personal engineering challenge born from my love of hiking: a rugged, solar-powered GPS tracker built on an Arduino Nano. It delivers high-precision positioning in UTM coordinates and stays operational indefinitely with solar charging.
+
+## Overview
+
+This device reads GPS data—latitude, longitude, altitude, speed, and signal strength—from a GPS module, processes the coordinates into **UTM** for compatibility with **IGN hiking maps**, and displays everything on a compact OLED screen. With its solar charger and battery, it never loses power in the field.
+
+The full code, PCB schematics, and wiring details are available on GitHub: [Arduino-GPS-Display](https://github.com/AlexyDarius/Arduino-GPS-Display)
+
+## Key Achievements
+
+- 🛰️ Real-time display of GPS data: lat/lon, altitude, speed, signal strength  
+- 🔁 Custom C++ routines for **lat/long → UTM** transformation with matrix math  
+- ☀️ Fully solar-powered via charging module + Li-ion battery  
+- 🎯 Achieves **±1 m accuracy**, vital for terrain navigation  
+- ⚡ Optimized for **2 KB of RAM**, decoupling complex math from display logic  
+
+## Key Features
+
+- **Arduino Nano (32 KB flash, 2 KB SRAM)** — extreme memory constraints drove careful optimizations  
+- **GPS Module** (e.g., NEO‑6M/u‑blox), connected via serial  
+- **OLED Display** (I²C) showing all live data in a compact layout  
+- **Solar Charging Circuit** with TP4056 charger and panel for sustainable operation  
+- **Coordinate Conversion** implemented using matrix transformations directly in C++  
+- **Memory Optimization**: separate routines handle display vs. computation to minimize stack usage  
+
+## Technologies Used
+
+- **Arduino Nano**, **C++**, direct AVR register usage  
+- **TinyGPS++** for parsing NMEA sentences  
+- Custom **matrix-based UTM conversion** routines  
+- **I²C OLED** (Adafruit SSD1306 or equivalent)  
+- **Solar Li-ion power system** with charger/control  
+- **GitHub repo** with full source, wiring diagrams, and usage documentation  
+
+## Challenges & Learnings
+
+- Managing complex geodetic math (latitude/longitude → UTM) in limited flash and RAM  
+- Dividing display logic from heavy math to avoid SRAM exhaustion  
+- Fine-tuning serial parsing, memory usage (use of F() macros, no String, PROGMEM where needed)  
+- Calibrating solar charging to work reliably under variable light  
+
+## Outcome
+
+A fully independent GPS navigator that **never runs out of battery** and delivers **map-ready UTM coords**, formatted for integration with IGN hiking cards. It’s become my **trusted companion** on trails, and a first step in the world of embedded systems.

@@ -1,0 +1,60 @@
+---
+title: "Traceur GPS Solaire pour la Randonnée"
+publishedAt: "2023-08-15"
+summary: "GPS autonome sous Arduino, conversion UTM, énergie solaire, précision 1 m"
+images:
+  - "/images/projects/solar-gps/cover.jpg"
+  - "/images/projects/solar-gps/device.jpg"
+tag: ["Arduino", "C++", "Systèmes embarqués", "GPS", "Solaire"]
+team:
+  - name: "Alexy Roman"
+    role: "Ingénieur Systèmes Embarqués"
+    avatar: "/images/avatar.png"
+    linkedIn: "https://www.linkedin.com/in/alexyrfr"
+link: "https://github.com/AlexyDarius/Arduino-GPS-Display"
+---
+
+Un défi personnel inspiré par ma passion pour la randonnée : un traceur GPS autonome à énergie solaire, construit autour d’un Arduino Nano. Il fournit une position UTM compatible avec les cartes IGN, et ne tombe jamais en panne grâce à son système de recharge solaire.
+
+Le code, schémas et détails de câblage sont disponibles sur GitHub : [Arduino-GPS-Display](https://github.com/AlexyDarius/Arduino-GPS-Display)
+
+## Vue d’ensemble
+
+Le dispositif capte les données GPS – latitude, longitude, altitude, vitesse, qualité du signal – les convertit en **UTM** pour les cartes topographiques IGN, et les affiche en continu sur un écran OLED compact.
+
+## Réalisations principales
+
+- 🛰️ Affichage temps réel : GPS, altitude, vitesse, puissance du signal  
+- 🔁 Transformation UTM via calcul matriciel en C++  
+- ☀️ Énergie 100 % solaire grâce à un panneau et régulateur TP4056  
+- 🎯 Précision d’environ 1 m, essentielle pour la randonnée  
+- ⚡ Optimisation mémoire extrême : 2 Ko de RAM, séparation calcul/affichage  
+
+## Fonctionnalités clé
+
+- **Arduino Nano (32 Ko flash, 2 Ko SRAM)** — optimisation max  
+- **Module GPS** (Ex : NEO‑6M) en liaison série  
+- **Écran OLED I²C** pour visualiser les données en direct  
+- **Système énergétique solaire** avec circuit de charge Li-ion  
+- **Conversion UTM** implémentée en C++ via transformées matricielles  
+- **Optimisation mémoire** : routines distinctes pour math et UI  
+
+## Tech stack
+
+- **Arduino Nano**, **C++ bas‑niveau**
+- **TinyGPS++** pour parser le flux NMEA
+- **Calculs UTM personnalisés** en C++
+- **OLED I²C** (SSD1306 ou équivalent)
+- **Panneau solaire + TP4056**
+- **Référentiel sur GitHub** avec code complet, schémas et documentation
+
+## Défis & apprentissages
+
+- Gérer les transformations géodésiques sous contraintes mémoire
+- Séparer les calculs intensifs du rendu graphique pour sauver la SRAM
+- Optimisation RAM : F() macros, PROGMEM, pas de String
+- Ajuster la charge solaire dans des conditions réelles variables
+
+## Résultat
+
+Un traceur GPS **totalement autonome**, délivrant des coordonnées UTM utilisables sur terrain et cartes IGN. Fiable, énergétique et ultra-optimisé, c’est devenu mon **compagnon de confiance en randonnée**, et un premier pas dans le monde des systèmes embarqués.
