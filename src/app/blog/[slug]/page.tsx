@@ -1,18 +1,26 @@
 import { notFound } from "next/navigation";
 import { CustomMDX } from "@/components/mdx";
-import { getPosts } from "@/app/utils/utils";
-import { AvatarGroup, Button, Column, Heading, HeadingNav, Icon, Row, Text } from "@/once-ui/components";
+import { getBlogPosts, getBlogPostInBothLanguages } from "@/app/utils/blog";
+import { BlogDetailWithLanguages } from "@/components/blog/BlogDetailWithLanguages";
+import { HeadingNav, Icon, Row, Column } from "@/once-ui/components";
 import { about, blog, person, baseURL } from "@/app/resources";
-import { formatDate } from "@/app/utils/formatDate";
 import ScrollToHash from "@/components/ScrollToHash";
 import { Metadata } from 'next';
 import { Meta, Schema } from "@/once-ui/modules";
+import { headers, cookies } from 'next/headers';
+import type { Language } from '@/atoms/language';
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
-  const posts = getPosts(["src", "app", "blog", "posts"]);
-  return posts.map((post) => ({
-    slug: post.slug,
-  }));
+  const enPosts = getBlogPosts(undefined, 'EN');
+  const frPosts = getBlogPosts(undefined, 'FR');
+  
+  // Get unique slugs from both languages
+  const allSlugs = new Set([
+    ...enPosts.map(post => post.slug),
+    ...frPosts.map(post => post.slug)
+  ]);
+  
+  return Array.from(allSlugs).map(slug => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -23,8 +31,18 @@ export async function generateMetadata({
   const routeParams = await params;
   const slugPath = Array.isArray(routeParams.slug) ? routeParams.slug.join('/') : routeParams.slug || '';
 
-  const posts = getPosts(["src", "app", "blog", "posts"])
-  let post = posts.find((post) => post.slug === slugPath);
+  // Get language from cookie for metadata
+  const languageCookie = (await cookies()).get('language')?.value as Language;
+  let language: Language;
+  if (languageCookie) {
+    language = languageCookie;
+  } else {
+    const acceptLang = (await headers()).get('accept-language') || '';
+    language = acceptLang.toLowerCase().includes('fr') ? 'FR' : 'EN';
+  }
+
+  const posts = getBlogPostInBothLanguages(slugPath);
+  const post = (language === 'FR' && posts.fr) ? posts.fr : posts.en;
 
   if (!post) return {};
 
@@ -43,52 +61,57 @@ export default async function Blog({
   const routeParams = await params;
   const slugPath = Array.isArray(routeParams.slug) ? routeParams.slug.join('/') : routeParams.slug || '';
 
-  let post = getPosts(["src", "app", "blog", "posts"]).find((post) => post.slug === slugPath);
+  // Get language from cookie
+  const languageCookie = (await cookies()).get('language')?.value as Language;
+  let language: Language;
+  if (languageCookie) {
+    language = languageCookie;
+  } else {
+    const acceptLang = (await headers()).get('accept-language') || '';
+    language = acceptLang.toLowerCase().includes('fr') ? 'FR' : 'EN';
+  }
 
-  if (!post) {
+  const posts = getBlogPostInBothLanguages(slugPath);
+  
+  if (!posts.en && !posts.fr) {
     notFound();
   }
 
-  const avatars =
-    post.metadata.team?.map((person) => ({
-      src: person.avatar,
-    })) || [];
+  const currentPost = (language === 'FR' && posts.fr) ? posts.fr : (posts.en || posts.fr);
+
+  if (!currentPost) {
+    notFound();
+  }
 
   return (
     <Row fillWidth>
       <Row maxWidth={12} hide="m"/>
       <Row fillWidth horizontal="center">
-        <Column as="section" maxWidth="xs" gap="l">
-          <Schema
-            as="blogPosting"
-            baseURL={baseURL}
-            path={`${blog.path}/${post.slug}`}
-            title={post.metadata.title}
-            description={post.metadata.summary}
-            datePublished={post.metadata.publishedAt}
-            dateModified={post.metadata.publishedAt}
-            image={`${baseURL}/og?title=${encodeURIComponent(post.metadata.title)}`}
-            author={{
-              name: person.name,
-              url: `${baseURL}${about.path}`,
-              image: `${baseURL}${person.avatar}`,
-            }}
-          />
-          <Button data-border="rounded" href="/blog" weight="default" variant="tertiary" size="s" prefixIcon="chevronLeft">
-            Posts
-          </Button>
-          <Heading variant="display-strong-s">{post.metadata.title}</Heading>
-          <Row gap="12" vertical="center">
-            {avatars.length > 0 && <AvatarGroup size="s" avatars={avatars} />}
-            <Text variant="body-default-s" onBackground="neutral-weak">
-              {post.metadata.publishedAt && formatDate(post.metadata.publishedAt)}
-            </Text>
-          </Row>
-          <Column as="article" fillWidth>
-            <CustomMDX source={post.content} />
-          </Column>
-          <ScrollToHash />
-        </Column>
+        <Schema
+          as="blogPosting"
+          baseURL={baseURL}
+          path={`${blog.path}/${currentPost.slug}`}
+          title={currentPost.metadata.title}
+          description={currentPost.metadata.summary}
+          datePublished={currentPost.metadata.publishedAt}
+          dateModified={currentPost.metadata.publishedAt}
+          image={currentPost.metadata.image ? `${baseURL}${currentPost.metadata.image}` : `${baseURL}/og?title=${encodeURIComponent(currentPost.metadata.title)}`}
+          author={{
+            name: person.name,
+            url: `${baseURL}${about.path}`,
+            image: `${baseURL}${person.avatar}`,
+          }}
+        />
+        <BlogDetailWithLanguages
+          posts={posts}
+          serverLanguage={language}
+        >
+          {{
+            en: posts.en ? <CustomMDX source={posts.en.content} /> : null,
+            fr: posts.fr ? <CustomMDX source={posts.fr.content} /> : null,
+          }}
+        </BlogDetailWithLanguages>
+        <ScrollToHash />
     </Row>
     <Column maxWidth={12} paddingLeft="40" fitHeight position="sticky" top="80" gap="16" hide="m">
       <Row

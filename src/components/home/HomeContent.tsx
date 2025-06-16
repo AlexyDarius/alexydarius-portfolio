@@ -2,11 +2,13 @@
 
 import React from "react";
 import { Heading, Flex, Text, Button, Avatar, RevealFx, Column, Badge, Row, SmartImage } from "@/once-ui/components";
-import { baseURL } from "@/app/resources";
+import { baseURL, routes } from "@/app/resources";
 import { Schema } from "@/once-ui/modules";
 import { useContent } from "@/app/resources/useContent";
 import { ProjectsSection } from "@/components/work/ProjectsSection";
+import { BlogPostsGridClient } from "@/components/blog/BlogPostsGridClient";
 import { Project } from "@/types/project";
+import { BlogPost } from "@/app/utils/blog";
 import { useAtom } from 'jotai';
 import { languageAtom, type Language } from '@/atoms/language';
 import { useEffect } from 'react';
@@ -14,10 +16,11 @@ import { useEffect } from 'react';
 interface HomeContentProps {
   latestProjects: Project[];
   starredProjects: Project[];
+  blogPosts: BlogPost[];
   serverLanguage: Language;
 }
 
-export function HomeContent({ latestProjects, starredProjects, serverLanguage }: HomeContentProps) {
+export function HomeContent({ latestProjects, starredProjects, blogPosts, serverLanguage }: HomeContentProps) {
   const [language, setLanguage] = useAtom(languageAtom);
   const { home, about, person, newsletter } = useContent();
 
@@ -32,6 +35,10 @@ export function HomeContent({ latestProjects, starredProjects, serverLanguage }:
 
   const getStarredProjectsText = () => {
     return language === 'FR' ? 'Projets en lumière' : 'Starred Projects';
+  };
+
+  const getLatestFromBlogText = () => {
+    return language === 'FR' ? 'Derniers articles du blog' : 'Latest from the blog';
   };
 
   return (
@@ -116,6 +123,25 @@ export function HomeContent({ latestProjects, starredProjects, serverLanguage }:
               projects={latestProjects}
               title={getLatestProjectText()}
             />
+          </RevealFx>
+        )}
+        {routes["/blog"] && blogPosts.length > 0 && (
+          <RevealFx translateY="12" delay={0.7} paddingTop="l">
+            <Flex fillWidth gap="24" mobileDirection="column">
+              <Flex flex={1} paddingLeft="l">
+                <Heading as="h2" variant="display-strong-xs" wrap="balance">
+                  {getLatestFromBlogText()}
+                </Heading>
+              </Flex>
+              <Flex flex={3} paddingX="20">
+                <BlogPostsGridClient 
+                  initialPosts={blogPosts}
+                  range={[1, 2]} 
+                  columns="2" 
+                  thumbnail={true}
+                />
+              </Flex>
+            </Flex>
           </RevealFx>
         )}
         {starredProjects.length > 0 && (

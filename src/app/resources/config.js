@@ -7,7 +7,7 @@ const routes = {
   "/privacy-policy": true,
   "/legal-notice": true,
   "/cookie-policy": true,
-  "/blog": false,
+  "/blog": true,
   "/gallery": false,
 };
 

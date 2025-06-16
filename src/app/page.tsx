@@ -4,6 +4,7 @@ import { baseURL } from "@/app/resources";
 import * as defaultContent from "@/app/resources/content";
 import { HomeContent } from "@/components/home/HomeContent";
 import { getProjects, getStarredProjects } from "@/app/utils/projects";
+import { getBlogPosts } from "@/app/utils/blog";
 import { headers, cookies } from 'next/headers';
 import type { Language } from '@/atoms/language';
 
@@ -57,10 +58,14 @@ export default async function Home() {
   const latestProjects = getProjects([1, 1], language);
   const starredProjects = getStarredProjects(language);
 
+  // Load blog posts server-side with language support
+  const blogPosts = getBlogPosts(undefined, language);
+
   return (
     <HomeContent 
       latestProjects={latestProjects} 
       starredProjects={starredProjects}
+      blogPosts={blogPosts}
       serverLanguage={language}
     />
   );

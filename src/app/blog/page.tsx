@@ -1,9 +1,12 @@
 import { Column, Heading } from "@/once-ui/components";
 import { Mailchimp } from "@/components";
-import { Posts } from "@/components/blog/Posts";
+import { BlogPostsGridClient } from "@/components/blog/BlogPostsGridClient";
+import { getBlogPosts } from "@/app/utils/blog";
 import { baseURL } from "@/app/resources";
 import { blog, person, newsletter } from "@/app/resources/content";
 import { Meta, Schema } from "@/once-ui/modules";
+import { headers, cookies } from 'next/headers';
+import type { Language } from '@/atoms/language';
 
 export async function generateMetadata() {
   return Meta.generate({
@@ -15,7 +18,22 @@ export async function generateMetadata() {
   });
 }
 
-export default function Blog() {
+export default async function Blog() {
+  // Get language from cookie first
+  const languageCookie = (await cookies()).get('language')?.value as Language;
+  
+  let language: Language;
+  if (languageCookie) {
+    language = languageCookie;
+  } else {
+    // Fallback to Accept-Language header
+    const acceptLang = (await headers()).get('accept-language') || '';
+    language = acceptLang.toLowerCase().includes('fr') ? 'FR' : 'EN';
+  }
+
+  // Load blog posts with language support
+  const allBlogPosts = getBlogPosts(undefined, language);
+
   return (
     <Column maxWidth="s">
       <Schema
@@ -34,12 +52,11 @@ export default function Blog() {
       <Heading marginBottom="l" variant="display-strong-s">
         {blog.title}
       </Heading>
-      <Column
-				fillWidth flex={1}>
-				<Posts range={[1,1]} thumbnail direction="column"/>
-				<Posts range={[2,3]} thumbnail/>
-				<Posts range={[4]} columns="2"/>
-			</Column>
+      <Column fillWidth flex={1}>
+        <BlogPostsGridClient initialPosts={allBlogPosts} range={[1, 1]} thumbnail direction="column"/>
+        <BlogPostsGridClient initialPosts={allBlogPosts} range={[2, 3]} thumbnail/>
+        <BlogPostsGridClient initialPosts={allBlogPosts} range={[4]} columns="2"/>
+      </Column>
       {newsletter.display && <Mailchimp newsletter={newsletter} />}
     </Column>
   );
