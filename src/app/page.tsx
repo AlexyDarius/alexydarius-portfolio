@@ -9,12 +9,32 @@ import type { Language } from '@/atoms/language';
 
 export async function generateMetadata() {
   const { home } = defaultContent;
-  return Meta.generate({
-    title: home.title,
-    description: home.description,
-    baseURL: baseURL,
-    path: home.path,
-  });
+  const title = home.title;
+  const description = home.description;
+  const ogImage = home.image ? `${baseURL}${home.image}` : `${baseURL}/og?title=${encodeURIComponent(title)}`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      url: `${baseURL}`,
+      images: [
+        {
+          url: ogImage,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogImage],
+    },
+  };
 }
 
 // Force dynamic rendering to ensure cookies are read on each request

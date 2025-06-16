@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Heading, Flex, Text, Button, Avatar, RevealFx, Column, Badge, Row } from "@/once-ui/components";
+import { Heading, Flex, Text, Button, Avatar, RevealFx, Column, Badge, Row, SmartImage } from "@/once-ui/components";
 import { baseURL } from "@/app/resources";
 import { Schema } from "@/once-ui/modules";
 import { useContent } from "@/app/resources/useContent";
@@ -42,7 +42,7 @@ export function HomeContent({ latestProjects, starredProjects, serverLanguage }:
         path={home.path}
         title={home.title}
         description={home.description}
-        image={`${baseURL}/og?title=${encodeURIComponent(home.title)}`}
+        image={home.image ? `${baseURL}${home.image}` : `${baseURL}/og?title=${encodeURIComponent(home.title)}`}
         author={{
           name: person.name,
           url: `${baseURL}${about.path}`,
@@ -98,6 +98,18 @@ export function HomeContent({ latestProjects, starredProjects, serverLanguage }:
             </Button>
           </RevealFx>
         </Column>
+        {home.image && (
+          <RevealFx translateY="12" delay={0.5} fillWidth paddingTop="l">
+            <SmartImage
+              priority
+              aspectRatio="16 / 9"
+              radius="l"
+              alt={home.title}
+              src={home.image}
+              sizes="(max-width: 768px) 100vw, 960px"
+            />
+          </RevealFx>
+        )}
         {latestProjects.length > 0 && (
           <RevealFx translateY="8" delay={0.6} paddingTop="l">
             <ProjectsSection
