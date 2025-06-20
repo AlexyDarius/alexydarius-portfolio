@@ -15,6 +15,11 @@ jest.mock('@/app/resources/content', () => ({
     title: 'About Me',
     description: 'Learn more about me',
     path: '/about',
+    calendar: {
+      display: true,
+      link: 'https://cal.com',
+      text: 'Schedule a call',
+    },
   },
   person: {
     name: 'Alexy Darius',
@@ -27,6 +32,11 @@ jest.mock('@/app/resources/content.fr', () => ({
     title: 'À propos',
     description: 'En savoir plus sur moi',
     path: '/about',
+    calendar: {
+      display: true,
+      link: 'https://cal.com',
+      text: 'Planifier un appel',
+    },
   },
   person: {
     name: 'Alexy Darius',
@@ -153,6 +163,52 @@ describe('About Page (6.2)', () => {
 
       expect(metadata.title).toBe('About Me');
       expect(metadata.openGraph.locale).toBe('en_US');
+    });
+  });
+
+  describe('Calendar internationalization', () => {
+    it('should have English calendar text in English content', async () => {
+      const searchParams = mockSearchParams('EN');
+      const metadata = await generateMetadata({ searchParams });
+
+      // Import the content to check calendar text
+      const content = await import('@/app/resources/content');
+      expect(content.about.calendar.text).toBe('Schedule a call');
+      expect(content.about.calendar.display).toBe(true);
+      expect(content.about.calendar.link).toBe('https://cal.com');
+    });
+
+    it('should have French calendar text in French content', async () => {
+      const searchParams = mockSearchParams('FR');
+      const metadata = await generateMetadata({ searchParams });
+
+      // Import the content to check calendar text
+      const content = await import('@/app/resources/content.fr');
+      expect(content.about.calendar.text).toBe('Planifier un appel');
+      expect(content.about.calendar.display).toBe(true);
+      expect(content.about.calendar.link).toBe('https://cal.com');
+    });
+
+    it('should have consistent calendar structure across languages', async () => {
+      const enContent = await import('@/app/resources/content');
+      const frContent = await import('@/app/resources/content.fr');
+
+      expect(enContent.about.calendar).toHaveProperty('display');
+      expect(enContent.about.calendar).toHaveProperty('link');
+      expect(enContent.about.calendar).toHaveProperty('text');
+      
+      expect(frContent.about.calendar).toHaveProperty('display');
+      expect(frContent.about.calendar).toHaveProperty('link');
+      expect(frContent.about.calendar).toHaveProperty('text');
+    });
+
+    it('should have different calendar text for different languages', async () => {
+      const enContent = await import('@/app/resources/content');
+      const frContent = await import('@/app/resources/content.fr');
+
+      expect(enContent.about.calendar.text).not.toBe(frContent.about.calendar.text);
+      expect(enContent.about.calendar.text).toBe('Schedule a call');
+      expect(frContent.about.calendar.text).toBe('Planifier un appel');
     });
   });
 

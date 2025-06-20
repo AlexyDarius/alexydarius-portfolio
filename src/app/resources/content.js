@@ -81,6 +81,7 @@ const about = {
   calendar: {
     display: true,
     link: "https://cal.com",
+    text: "Schedule a call",
   },
   intro: {
     display: true,

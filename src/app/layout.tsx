@@ -13,46 +13,6 @@ import type { Language } from '@/atoms/language';
 
 import { Background, Column, Flex, ThemeProvider, ToastProvider } from "@/once-ui/components";
 import { opacity, SpacingToken } from "@/once-ui/types";
-import { Meta } from "@/once-ui/modules";
-
-export async function generateMetadata({ searchParams }: { searchParams: Promise<{ lang?: string }> }) {
-  const params = await searchParams;
-  const language = (params?.lang === 'FR' ? 'FR' : 'EN') as Language;
-  
-  // Import the correct content based on language
-  const content = language === 'FR' 
-    ? await import('@/app/resources/content.fr')
-    : await import('@/app/resources/content');
-
-  const { home } = content;
-
-  return {
-    title: home.title,
-    description: home.description,
-    openGraph: {
-      title: home.title,
-      description: home.description,
-      images: [home.image ? `${baseURL}${home.image}` : `${baseURL}/og?title=${encodeURIComponent(home.title)}`],
-      url: `${baseURL}?lang=${language}`,
-      siteName: content.person.name,
-      locale: language === 'FR' ? 'fr_FR' : 'en_US',
-      type: 'website'
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: home.title,
-      description: home.description,
-      images: [home.image ? `${baseURL}${home.image}` : `${baseURL}/og?title=${encodeURIComponent(home.title)}`]
-    },
-    alternates: {
-      languages: {
-        'en': `${baseURL}?lang=EN`,
-        'fr': `${baseURL}?lang=FR`,
-        'x-default': `${baseURL}?lang=EN`
-      }
-    }
-  };
-}
 
 interface RootLayoutProps {
   children: React.ReactNode;
