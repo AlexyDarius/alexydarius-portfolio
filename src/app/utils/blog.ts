@@ -32,25 +32,29 @@ function getMDXFiles(dir: string, language: Language = 'EN') {
 }
 
 function readMDXFile(filePath: string): BlogPost | null {
-  if (!fs.existsSync(filePath)) {
+  try {
+    if (!fs.existsSync(filePath)) {
+      return null;
+    }
+
+    const rawContent = fs.readFileSync(filePath, "utf-8");
+    const { data, content } = matter(rawContent);
+
+    const metadata = {
+      title: data.title || "",
+      publishedAt: data.publishedAt,
+      summary: data.summary || "",
+      image: data.image || "",
+      tag: data.tag || "",
+    };
+
+    // Remove .fr from slug for French files to keep URLs consistent
+    const slug = path.basename(filePath, path.extname(filePath)).replace('.fr', '');
+    
+    return { metadata, content, slug };
+  } catch (e) {
     return null;
   }
-
-  const rawContent = fs.readFileSync(filePath, "utf-8");
-  const { data, content } = matter(rawContent);
-
-  const metadata = {
-    title: data.title || "",
-    publishedAt: data.publishedAt,
-    summary: data.summary || "",
-    image: data.image || "",
-    tag: data.tag || "",
-  };
-
-  // Remove .fr from slug for French files to keep URLs consistent
-  const slug = path.basename(filePath, path.extname(filePath)).replace('.fr', '');
-  
-  return { metadata, content, slug };
 }
 
 export function getBlogPosts(range?: [number, number?], language: Language = 'EN'): BlogPost[] {

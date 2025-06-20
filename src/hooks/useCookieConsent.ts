@@ -21,6 +21,11 @@ export function useCookieConsent() {
 
   useEffect(() => {
     // Check if consent exists and is still valid (1 month)
+    if (typeof localStorage === 'undefined') {
+      setHasConsent(false);
+      setIsLoading(false);
+      return;
+    }
     const consentData = localStorage.getItem('cookie-consent');
     if (consentData) {
       try {
@@ -56,7 +61,9 @@ export function useCookieConsent() {
       consentDate: new Date().toISOString()
     };
     setPreferences(updatedPrefs);
-    localStorage.setItem('cookie-consent', JSON.stringify(updatedPrefs));
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('cookie-consent', JSON.stringify(updatedPrefs));
+    }
     setHasConsent(true);
   };
 
