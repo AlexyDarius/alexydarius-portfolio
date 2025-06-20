@@ -1,13 +1,21 @@
-"use client";
-
 import { Flex, Heading, Text } from "@/once-ui/components";
-import { useAtom } from 'jotai';
-import { languageAtom } from '@/atoms/language';
-import { legal as legalEN } from "../resources/content";
-import { legal as legalFR } from "../resources/content.fr";
-export default function LegalNoticePage() {
-  const [language] = useAtom(languageAtom);
-  const legal = language === 'EN' ? legalEN : legalFR;
+import { generateLegalPageMetadata } from "@/app/utils/metadata";
+import type { Language } from '@/atoms/language';
+
+export async function generateMetadata({ searchParams }: { searchParams: Promise<{ lang?: string }> }) {
+  return generateLegalPageMetadata('legalNotice', searchParams);
+}
+
+export default async function LegalNoticePage({ searchParams }: { searchParams: Promise<{ lang?: string }> }) {
+  const params = await searchParams;
+  const language = (params?.lang === 'FR' ? 'FR' : 'EN') as Language;
+
+  // Import the correct content based on language
+  const contentModule = language === 'FR' 
+    ? await import('@/app/resources/content.fr')
+    : await import('@/app/resources/content');
+    
+  const legal = contentModule.legal;
   const content = legal.legalNotice;
 
   return (

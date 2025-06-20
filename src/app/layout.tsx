@@ -6,20 +6,52 @@ import classNames from "classnames";
 import { Footer, Header, RouteGuard } from "@/components";
 import { CookieConsent } from "@/components/analytics/CookieConsent";
 import { GoogleAnalyticsProvider } from "@/components/analytics/GoogleAnalyticsProvider";
+import LanguageProvider from "@/components/LanguageProvider";
 import { baseURL, effects, style, font, home } from "@/app/resources";
+import { headers } from 'next/headers';
+import type { Language } from '@/atoms/language';
 
 import { Background, Column, Flex, ThemeProvider, ToastProvider } from "@/once-ui/components";
 import { opacity, SpacingToken } from "@/once-ui/types";
 import { Meta } from "@/once-ui/modules";
 
-export async function generateMetadata() {
-  return Meta.generate({
+export async function generateMetadata({ searchParams }: { searchParams: Promise<{ lang?: string }> }) {
+  const params = await searchParams;
+  const language = (params?.lang === 'FR' ? 'FR' : 'EN') as Language;
+  
+  // Import the correct content based on language
+  const content = language === 'FR' 
+    ? await import('@/app/resources/content.fr')
+    : await import('@/app/resources/content');
+
+  const { home } = content;
+
+  return {
     title: home.title,
     description: home.description,
-    baseURL: baseURL,
-    path: home.path,
-    image: home.image,
-  });
+    openGraph: {
+      title: home.title,
+      description: home.description,
+      images: [home.image ? `${baseURL}${home.image}` : `${baseURL}/og?title=${encodeURIComponent(home.title)}`],
+      url: `${baseURL}?lang=${language}`,
+      siteName: content.person.name,
+      locale: language === 'FR' ? 'fr_FR' : 'en_US',
+      type: 'website'
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: home.title,
+      description: home.description,
+      images: [home.image ? `${baseURL}${home.image}` : `${baseURL}/og?title=${encodeURIComponent(home.title)}`]
+    },
+    alternates: {
+      languages: {
+        'en': `${baseURL}?lang=EN`,
+        'fr': `${baseURL}?lang=FR`,
+        'x-default': `${baseURL}?lang=EN`
+      }
+    }
+  };
 }
 
 interface RootLayoutProps {
@@ -27,11 +59,16 @@ interface RootLayoutProps {
 }
 
 export default async function RootLayout({ children }: RootLayoutProps) {
+  // Get language from middleware header
+  const headersList = await headers();
+  const serverLanguage = headersList.get('x-language') as Language || 'EN';
+  const lang = serverLanguage === 'FR' ? 'fr' : 'en';
+
   return (
     <Flex
       suppressHydrationWarning
       as="html"
-      lang="en"
+      lang={lang}
       background="page"
       data-neutral={style.neutral}
       data-brand={style.brand}
@@ -49,6 +86,11 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       )}
     >
       <head>
+        {/* SEO: Add hreflang for language versions */}
+        <link rel="alternate" hrefLang="en" href={`${baseURL}?lang=EN`} />
+        <link rel="alternate" hrefLang="fr" href={`${baseURL}?lang=FR`} />
+        <link rel="alternate" hrefLang="x-default" href={`${baseURL}?lang=EN`} />
+        
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -72,8 +114,9 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       </head>
       <ThemeProvider>
         <ToastProvider>
-          <GoogleAnalyticsProvider />
-          <Column style={{ minHeight: "100vh" }} as="body" fillWidth margin="0" padding="0">
+          <LanguageProvider initialLanguage={serverLanguage}>
+            <GoogleAnalyticsProvider />
+            <Column style={{ minHeight: "100vh" }} as="body" fillWidth margin="0" padding="0">
             <Background
               position="fixed"
               mask={{
@@ -132,6 +175,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             <Footer />
             <CookieConsent />
           </Column>
+          </LanguageProvider>
         </ToastProvider>
       </ThemeProvider>
     </Flex>

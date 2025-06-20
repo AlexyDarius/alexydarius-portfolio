@@ -58,7 +58,7 @@ export function BlogDetailWithLanguages({ posts, serverLanguage, children }: Blo
 
   return (
     <Column as="section" maxWidth="xs" gap="l">
-      <Button data-border="rounded" href="/blog" weight="default" variant="tertiary" size="s" prefixIcon="chevronLeft">
+      <Button data-border="rounded" href={`/blog?lang=${language}`} weight="default" variant="tertiary" size="s" prefixIcon="chevronLeft">
         {getPostsText()}
       </Button>
       <Heading variant="display-strong-s">{currentPost.metadata.title}</Heading>

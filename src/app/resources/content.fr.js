@@ -178,7 +178,7 @@ const about = {
 const blog = {
   path: "/blog",
   label: "Blog",
-  title: "Écrits sur l'ingénierie des systèmes et logiciels...",
+  title: "Blog sur l'ingénierie des systèmes et logiciels...",
   description: `Découvrez les dernières explorations de ${person.name}`,
 };
 

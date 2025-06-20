@@ -8,8 +8,16 @@ import { getBlogPosts } from "@/app/utils/blog";
 import { headers, cookies } from 'next/headers';
 import type { Language } from '@/atoms/language';
 
-export async function generateMetadata() {
-  const { home } = defaultContent;
+export async function generateMetadata({ searchParams }: { searchParams: Promise<{ lang?: string }> }) {
+  const params = await searchParams;
+  const language = (params?.lang === 'FR' ? 'FR' : 'EN') as Language;
+
+  // Import the correct content based on language
+  const content = language === 'FR' 
+    ? await import('@/app/resources/content.fr')
+    : await import('@/app/resources/content');
+  
+  const { home } = content;
   const title = home.title;
   const description = home.description;
   const ogImage = home.image ? `${baseURL}${home.image}` : `${baseURL}/og?title=${encodeURIComponent(title)}`;
@@ -21,7 +29,9 @@ export async function generateMetadata() {
       title,
       description,
       type: "website",
-      url: `${baseURL}`,
+      url: `${baseURL}?lang=${language}`,
+      siteName: content.person.name,
+      locale: language === 'FR' ? 'fr_FR' : 'en_US',
       images: [
         {
           url: ogImage,
@@ -35,6 +45,13 @@ export async function generateMetadata() {
       description,
       images: [ogImage],
     },
+    alternates: {
+      languages: {
+        'en': `${baseURL}?lang=EN`,
+        'fr': `${baseURL}?lang=FR`,
+        'x-default': `${baseURL}?lang=EN`
+      }
+    }
   };
 }
 

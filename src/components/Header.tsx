@@ -50,6 +50,9 @@ export const Header = () => {
   const pathname = usePathname() ?? "";
   const [language] = useAtom(languageAtom);
   
+  // Helper function to create language-aware hrefs
+  const createHref = (path: string) => `${path}?lang=${language}`;
+  
   // Dynamically import content based on language
   const [content, setContent] = useState({
     about,
@@ -110,7 +113,7 @@ export const Header = () => {
           >
             <Flex gap="4" vertical="center" textVariant="body-default-s">
               {routes["/"] && (
-                <ToggleButton prefixIcon="home" href="/" selected={pathname === "/"} />
+                <ToggleButton prefixIcon="home" href={createHref("/")} selected={pathname === "/"} />
               )}
               <Line background="neutral-alpha-medium" vert maxHeight="24" />
               {routes["/about"] && (
@@ -118,14 +121,14 @@ export const Header = () => {
                   <ToggleButton
                     className="s-flex-hide"
                     prefixIcon="person"
-                    href="/about"
+                    href={createHref("/about")}
                     label={content.about.label}
                     selected={pathname === "/about"}
                   />
                   <ToggleButton
                     className="s-flex-show"
                     prefixIcon="person"
-                    href="/about"
+                    href={createHref("/about")}
                     selected={pathname === "/about"}
                   />
                 </>
@@ -135,14 +138,14 @@ export const Header = () => {
                   <ToggleButton
                     className="s-flex-hide"
                     prefixIcon="grid"
-                    href="/work"
+                    href={createHref("/work")}
                     label={content.work.label}
                     selected={pathname.startsWith("/work")}
                   />
                   <ToggleButton
                     className="s-flex-show"
                     prefixIcon="grid"
-                    href="/work"
+                    href={createHref("/work")}
                     selected={pathname.startsWith("/work")}
                   />
                 </>
@@ -152,14 +155,14 @@ export const Header = () => {
                   <ToggleButton
                     className="s-flex-hide"
                     prefixIcon="book"
-                    href="/blog"
+                    href={createHref("/blog")}
                     label={content.blog.label}
                     selected={pathname.startsWith("/blog")}
                   />
                   <ToggleButton
                     className="s-flex-show"
                     prefixIcon="book"
-                    href="/blog"
+                    href={createHref("/blog")}
                     selected={pathname.startsWith("/blog")}
                   />
                 </>
@@ -169,14 +172,14 @@ export const Header = () => {
                   <ToggleButton
                     className="s-flex-hide"
                     prefixIcon="gallery"
-                    href="/gallery"
+                    href={createHref("/gallery")}
                     label={content.gallery.label}
                     selected={pathname.startsWith("/gallery")}
                   />
                   <ToggleButton
                     className="s-flex-show"
                     prefixIcon="gallery"
-                    href="/gallery"
+                    href={createHref("/gallery")}
                     selected={pathname.startsWith("/gallery")}
                   />
                 </>

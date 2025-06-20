@@ -9,25 +9,18 @@ import { getBrowserLanguage } from '@/utils/getBrowserLanguage';
 export const LanguageToggle = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [language, setLanguage] = useAtom(languageAtom);
-  const [hasInitialized, setHasInitialized] = useState(false);
-
-  useEffect(() => {
-    // Only set browser language if there's no value in localStorage
-    if (!hasInitialized && !localStorage.getItem('language')) {
-      const browserLang = getBrowserLanguage();
-      setLanguage(browserLang);
-    }
-    setHasInitialized(true);
-  }, [hasInitialized, setLanguage]);
 
   const handleLanguageChange = (newLanguage: Language) => {
-    setLanguage(newLanguage);
-    setIsOpen(false);
-    
-    // Set cookie so server can read the language preference
-    document.cookie = `language=${newLanguage}; path=/; max-age=${60 * 60 * 24 * 365}`; // 1 year
-    
-    // No longer reload the page - let the client-side state handle the change
+    // Only update if language is actually different
+    if (newLanguage !== language) {
+      setLanguage(newLanguage);
+      setIsOpen(false);
+      
+      // Set cookie so server can read the language preference
+      document.cookie = `language=${newLanguage}; path=/; max-age=${60 * 60 * 24 * 365}`; // 1 year
+    } else {
+      setIsOpen(false);
+    }
   };
 
   return (
