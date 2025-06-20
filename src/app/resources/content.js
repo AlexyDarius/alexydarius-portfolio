@@ -7,7 +7,7 @@ const person = {
     return `${this.firstName} ${this.lastName}`;
   },
   role: "Systems & Software Engineer",
-  avatar: "/images/avatar.png",
+  avatar: "/images/avatar.webp",
   email: "contact@alexyroman.com",
   location: "Europe/Paris", // IANA time zone identifier
   languages: ["English", "Français"],
@@ -49,7 +49,7 @@ const social = [
 
 const home = {
   path: "/",
-  image: "/images/og/home.jpg",
+      image: "/images/og/home.webp",
   label: "Home",
   title: `${person.name}'s Portfolio`,
   description: `Portfolio showcasing my work as a ${person.role}.`,

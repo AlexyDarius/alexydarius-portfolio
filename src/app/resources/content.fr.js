@@ -7,7 +7,7 @@ const person = {
     return `${this.firstName} ${this.lastName}`;
   },
   role: "Ingénieur Systèmes & Logiciels",
-  avatar: "/images/avatar.png",
+  avatar: "/images/avatar.webp",
   email: "contact@alexyroman.com",
   location: "Europe/Paris",
   languages: ["English", "Français"],
@@ -49,7 +49,7 @@ const social = [
 
 const home = {
   path: "/",
-  image: "/images/og/home.jpg",
+      image: "/images/og/home.webp",
   label: "Accueil",
   title: `Portfolio de ${person.name}`,
   description: `Portfolio présentant mon travail en tant qu'${person.role}.`,

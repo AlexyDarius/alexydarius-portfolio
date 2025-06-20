@@ -48,7 +48,7 @@ export function CookieConsent() {
         customize: 'Personnaliser',
         save: 'Sauvegarder',
         cancel: 'Annuler',
-        learnMore: 'En savoir plus'
+        learnMore: 'En savoir plus sur notre politique de cookies'
       };
     }
     return {
@@ -67,7 +67,7 @@ export function CookieConsent() {
       customize: 'Customize',
       save: 'Save Preferences',
       cancel: 'Cancel',
-      learnMore: 'Learn more'
+      learnMore: 'Learn more about our cookie policy'
     };
   };
 

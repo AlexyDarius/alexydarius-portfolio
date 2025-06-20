@@ -1,4 +1,4 @@
-const baseURL = "alexyroman.com";
+const baseURL = "https://alexyroman.com";
 
 const routes = {
   "/": true,
