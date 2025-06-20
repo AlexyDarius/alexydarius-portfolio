@@ -43,3 +43,6 @@ next-env.d.ts
 
 # image backups (not pushed to production)
 /backup
+
+# Docs
+/docs

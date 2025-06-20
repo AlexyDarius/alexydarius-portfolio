@@ -18,7 +18,7 @@ const newsletter = {
   title: <>Abonnez-vous à la newsletter de {person.firstName}</>,
   description: (
     <>
-      J'écris occasionnellement sur l'ingénierie des systèmes, l'intégration logicielle et la convergence
+      J&apos;écris occasionnellement sur l&apos;ingénierie des systèmes, l&apos;intégration logicielle et la convergence
       des systèmes complexes avec du code évolutif.
     </>
   ),
@@ -52,7 +52,7 @@ const home = {
       image: "/images/og/home.webp",
   label: "Accueil",
   title: `Portfolio de ${person.name}`,
-  description: `Portfolio présentant mon travail en tant qu'${person.role}.`,
+  description: `Portfolio présentant mon travail en tant qu&apos;${person.role}.`,
   headline: <>Concevoir des méthodes et outils qui unifient les ingénieurs et boostent la productivité</>,
   featured: {
     display: true,
@@ -61,7 +61,7 @@ const home = {
   },
   subline: (
     <>
-      Je suis Alexy, Ingénieur Systèmes & Logiciels chez <InlineCode>H3 Dynamics</InlineCode>, où je conçois des systèmes piles à combustible hydrogène pour l'aéronautique. Je crée également des méthodes et outils pour aider nos ingénieurs à rester alignés — en unifiant conception, ingénierie système et safety dans un processus collaboratif soutenu par des logiciels que je développe sur mesure pour être adaptés à nos besoins.
+      Je suis Alexy, Ingénieur Systèmes & Logiciels chez <InlineCode>H3&nbsp;Dynamics</InlineCode>, où je conçois des systèmes piles à combustible hydrogène pour l&apos;aéronautique. Je crée également des méthodes et outils pour aider nos ingénieurs à rester alignés — en unifiant conception, ingénierie système et safety dans un processus collaboratif soutenu par des logiciels que je développe sur mesure pour être adaptés à nos besoins.
     </>
   ),
 };
@@ -89,7 +89,7 @@ const about = {
       <>
         Je suis un Ingénieur Systèmes & Logiciels basé à Toulouse, travaillant chez H3 Dynamics.
         Je travaille comme ingénieur pour des systèmes piles à hydrogène de qualité aéronautique
-        et développe des logiciels pour optimiser des flux d'ingénierie complexes sous normes strictes, livrant des plateformes fiables et évolutives.
+        et développe des logiciels pour optimiser des flux d&apos;ingénierie complexes sous normes strictes, livrant des plateformes fiables et évolutives.
       </>
     ),
   },
@@ -102,14 +102,14 @@ const about = {
         timeframe: "2024 – Présent",
         role: "Ingénieur Systèmes & Logiciels",
         achievements: [
-          <>Responsable de la planification et de la mise en œuvre de processus d'ingénierie système conformes aux normes aéronautiques (ARP-4754 et ARP-4761).</>,
-          <>Conception et amélioration de processus pour aligner les pratiques sur les standards de l'industrie et accélérer les lancements de projets.</>,
-          <>Développement d'outils logiciels sur mesure pour soutenir l'ingénierie système : traitement de données de test, APIs, intégrations avec des outils de modélisation.</>,
-          <>Création de plateformes logicielles pour les clients du secteur hydrogène, livrant des analyses financières à partir de modèles d'optimisation sur des données techniques et financières en temps-réel.</>,
-          <>Pilotage de la transition vers l'Ingénierie Système Basée sur les Modèles (MBSE).</>,
+          <>Responsable de la planification et de la mise en œuvre de processus d&apos;ingénierie système conformes aux normes aéronautiques (ARP-4754 et ARP-4761).</>,
+          <>Conception et amélioration de processus pour aligner les pratiques sur les standards de l&apos;industrie et accélérer les lancements de projets.</>,
+          <>Développement d&apos;outils logiciels sur mesure pour soutenir l&apos;ingénierie système : traitement de données de test, APIs, intégrations avec des outils de modélisation.</>,
+          <>Création de plateformes logicielles pour les clients du secteur hydrogène, livrant des analyses financières à partir de modèles d&apos;optimisation sur des données techniques et financières en temps-réel.</>,
+          <>Pilotage de la transition vers l&apos;Ingénierie Système Basée sur les Modèles (MBSE).</>,
           <>Architecture de systèmes aéronautiques sous norme ARP-4754, avec modélisation et documentation claire pour les parties prenantes.</>,
           <>Travail pratique sur les systèmes à pile à hydrogène : intégration matérielle et mise en service.</>,
-          <>Propositions stratégiques pour intégrer des outils IA dans les processus d'ingénierie.</>,
+          <>Propositions stratégiques pour intégrer des outils IA dans les processus d&apos;ingénierie.</>,
         ],
         images: [],
       },
@@ -124,7 +124,7 @@ const about = {
         description: (
           <>
             Double diplôme : 
-            <br /><strong>- Ingénieur SITA-ISI</strong> (Systèmes d'Information du Transport Aérien)
+            <br /><strong>- Ingénieur SITA-ISI</strong> (Systèmes d&apos;Information du Transport Aérien)
             <br /><strong>- Master IATSED</strong> (Ingénierie et Conception des Systèmes de Transport Aérien).
             <br />Formation en systèmes aéronautiques, ingénierie aérospatiale et conception logicielle sous normes aéronautiques.
           </>
@@ -143,11 +143,11 @@ const about = {
       },
       {
         title: "MBSE – Ingénierie Système Basée sur les Modèles",
-        description: <>Leadership sur l'adoption MBSE : outils de modélisation, standards, et collaboration interdisciplinaire.</>,
+        description: <>Leadership sur l&apos;adoption MBSE : outils de modélisation, standards, et collaboration interdisciplinaire.</>,
         images: [],
       },
       {
-        title: "Logiciels pour l'Ingénierie",
+        title: "Logiciels pour l&apos;Ingénierie",
         description: <>Outils Python : traitements de données, APIs sur mesure, intégration avec des plateformes de conception et de modélisation.</>,
         images: [],
       },
@@ -158,17 +158,17 @@ const about = {
       },
       {
         title: "Stratégie IA & Automatisation",
-        description: <>Conception et proposition de stratégies pour intégrer l'IA dans les processus d'ingénierie.</>,
+        description: <>Conception et proposition de stratégies pour intégrer l&apos;IA dans les processus d&apos;ingénierie.</>,
         images: [],
       },
       {
         title: "Systèmes Hydrogène & Piles à Combustible",
-        description: <>Expérience pratique sur l'architecture, l'intégration, la mise en service et le support opérationnel de systèmes à hydrogène pour l'aéronautique.</>,
+        description: <>Expérience pratique sur l&apos;architecture, l&apos;intégration, la mise en service et le support opérationnel de systèmes à hydrogène pour l&apos;aéronautique.</>,
         images: [],
       },
       {
         title: "Normes & Conformité Aéronautiques",
-        description: <>Maîtrise de ARP‑4754, ARP‑4761 et des meilleures pratiques en sûreté, ingénierie et conception dans l'aéronautique.</>,
+        description: <>Maîtrise de ARP‑4754, ARP‑4761 et des meilleures pratiques en sûreté, ingénierie et conception dans l&apos;aéronautique.</>,
         images: [],
       },
     ],

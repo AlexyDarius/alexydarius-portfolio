@@ -15,7 +15,7 @@ const person = {
 
 const newsletter = {
   display: false,
-  title: <>Subscribe to {person.firstName}'s Newsletter</>,
+  title: <>Subscribe to {person.firstName}&apos;s Newsletter</>,
   description: (
     <>
       I occasionally write about systems engineering, software integration, and the convergence of
@@ -51,7 +51,7 @@ const home = {
   path: "/",
       image: "/images/og/home.webp",
   label: "Home",
-  title: `${person.name}'s Portfolio`,
+  title: `${person.name}&apos;s Portfolio`,
   description: `Portfolio showcasing my work as a ${person.role}.`,
   headline: <>Designing methods and tools that unite engineers and boost productivity</>,
   featured: {
@@ -61,7 +61,7 @@ const home = {
   },
   subline: (
     <>
-      I'm Alexy, a Systems & Software Engineer at <InlineCode>H3 Dynamics</InlineCode>, where I design aeronautical-grade hydrogen fuel cells systems. I also create methods and tools that help our engineers stay connected and aligned — bringing together design, systems engineering, and safety into a shared, collaborative workflow, supported by custom software I craft to fit our specific needs.
+      I&apos;m Alexy, a Systems & Software Engineer at <InlineCode>H3 Dynamics</InlineCode>, where I design aeronautical-grade hydrogen fuel cells systems. I also create methods and tools that help our engineers stay connected and aligned — bringing together design, systems engineering, and safety into a shared, collaborative workflow, supported by custom software I craft to fit our specific needs.
     </>
   ),
 };
