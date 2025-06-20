@@ -180,6 +180,7 @@ const blog = {
   label: "Blog",
   title: "Blog sur l'ingénierie des systèmes et logiciels...",
   description: `Découvrez les dernières explorations de ${person.name}`,
+  onThisPage: "Sur cette page",
 };
 
 const work = {

@@ -4,13 +4,15 @@ import React, { forwardRef, useEffect, useState, useRef, useCallback } from "rea
 import { Column, Flex, Row, SmartLink, Text } from "@/once-ui/components";
 import { useHeadingLinks } from "@/once-ui/hooks/generateHeadingLinks";
 
-interface props extends React.ComponentProps<typeof Flex> {}
+interface props extends React.ComponentProps<typeof Flex> {
+  language?: string;
+}
 
-const HeadingNav = forwardRef<HTMLDivElement, props>(({ className, style, ...rest }, ref) => {
+const HeadingNav = forwardRef<HTMLDivElement, props>(({ className, style, language, ...rest }, ref) => {
   const [activeHeadingId, setActiveHeadingId] = useState<string | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const indicatorRef = useRef<HTMLDivElement>(null);
-  const headings = useHeadingLinks();
+  const headings = useHeadingLinks([language]);
   const observerRef = useRef<IntersectionObserver | null>(null);
   const lastUpdateTimeRef = useRef<number>(0);
   const pendingUpdateRef = useRef<string | null>(null);
@@ -176,7 +178,7 @@ const HeadingNav = forwardRef<HTMLDivElement, props>(({ className, style, ...res
   };
 
   return (
-    <Row paddingLeft="8" gap="12" className={className} style={style} ref={ref} {...rest}>
+    <Row paddingLeft="8" gap="12" className={className} style={style} ref={ref} data-testid="heading-nav" {...rest}>
       <Row width="2" background="neutral-alpha-medium" radius="full" overflow="hidden">
         <Row
           ref={indicatorRef}

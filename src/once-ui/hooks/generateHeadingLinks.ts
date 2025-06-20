@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const useHeadingLinks = () => {
+export const useHeadingLinks = (dependencies: any[] = []) => {
   const [headings, setHeadings] = useState<{ id: string; text: string; level: number }[]>([]);
 
   useEffect(() => {
@@ -12,7 +12,7 @@ export const useHeadingLinks = () => {
         level: Number(elem.tagName.substring(1)),
       }));
     setHeadings(elements);
-  }, []);
+  }, dependencies);
 
   return headings;
 };

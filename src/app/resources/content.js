@@ -178,6 +178,7 @@ const blog = {
   label: "Blog",
   title: "Writing about systems & software engineering…",
   description: `Read what ${person.name} has been exploring lately`,
+  onThisPage: "On this page",
 };
 
 const work = {

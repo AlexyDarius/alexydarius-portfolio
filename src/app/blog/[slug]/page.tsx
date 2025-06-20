@@ -2,13 +2,14 @@ import { notFound } from "next/navigation";
 import { CustomMDX } from "@/components/mdx";
 import { getBlogPosts, getBlogPostInBothLanguages } from "@/app/utils/blog";
 import { BlogDetailWithLanguages } from "@/components/blog/BlogDetailWithLanguages";
-import { HeadingNav, Icon, Row, Column } from "@/once-ui/components";
+import { Row } from "@/once-ui/components";
 import { about, blog, person, baseURL } from "@/app/resources";
 import ScrollToHash from "@/components/ScrollToHash";
 import { Metadata } from 'next';
 import { Meta, Schema } from "@/once-ui/modules";
 import { headers, cookies } from 'next/headers';
 import type { Language } from '@/atoms/language';
+import { BlogSidebarClient } from "@/components/blog/BlogSidebarClient";
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const enPosts = getBlogPosts(undefined, 'EN');
@@ -112,20 +113,8 @@ export default async function Blog({
           }}
         </BlogDetailWithLanguages>
         <ScrollToHash />
-    </Row>
-    <Column maxWidth={12} paddingLeft="40" fitHeight position="sticky" top="80" gap="16" hide="m">
-      <Row
-        gap="12"
-        paddingLeft="2"
-        vertical="center"
-        onBackground="neutral-medium"
-        textVariant="label-default-s"
-      >
-        <Icon name="document" size="xs" />
-        On this page
       </Row>
-      <HeadingNav fitHeight/>
-    </Column>
+      <BlogSidebarClient language={language} />
     </Row>
   );
 }

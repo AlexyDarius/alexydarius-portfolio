@@ -37,6 +37,7 @@ next-env.d.ts
 
 # playwright
 /test-results
+/playwright-report
 
 # image backups (not pushed to production)
 /backup
